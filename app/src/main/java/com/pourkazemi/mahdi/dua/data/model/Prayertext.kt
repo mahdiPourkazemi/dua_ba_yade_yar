@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
     tableName = "prayertext",
     foreignKeys = [
         ForeignKey(
-            entity = prayers::class,
+            entity = Prayers::class,
             parentColumns = ["id"],
             childColumns = ["prayerid"],
             //onDelete = ForeignKey.CASCADE
@@ -18,7 +18,7 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index(value = ["prayerid"])]
 )
-data class prayertext(
+data class Prayertext(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Int,

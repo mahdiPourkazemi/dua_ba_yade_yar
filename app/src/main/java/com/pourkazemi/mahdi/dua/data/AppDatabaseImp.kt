@@ -4,11 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.pourkazemi.mahdi.dua.data.model.prayertext
-import com.pourkazemi.mahdi.dua.data.model.prayers
+import com.pourkazemi.mahdi.dua.data.dao.PrayerTextDao
+import com.pourkazemi.mahdi.dua.data.dao.PrayersDao
+import com.pourkazemi.mahdi.dua.data.model.Prayertext
+import com.pourkazemi.mahdi.dua.data.model.Prayers
 
 @Database(
-    entities = [prayers::class, prayertext::class],
+    entities = [Prayers::class, Prayertext::class],
     exportSchema = true, // Good practice for version control
     version = 1)
 abstract class AppDatabaseImp : RoomDatabase() {
@@ -21,16 +23,13 @@ abstract class AppDatabaseImp : RoomDatabase() {
 
         fun getDatabase(context: Context): AppDatabaseImp {
             return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
+                 Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabaseImp::class.java,
                     "dua.sqlite" // نام فایل SQLite موجود شما
                 ).createFromAsset("dua.sqlite")
                     .fallbackToDestructiveMigration() // از اینجا می‌توانید مهاجرت تخریبی استفاده کنید
-// اگر فایل در assets است
-                    .build()
-                INSTANCE = instance
-                instance
+                    .build().also { INSTANCE=it }
             }
         }
     }

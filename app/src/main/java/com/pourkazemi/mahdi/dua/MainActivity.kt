@@ -21,8 +21,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import com.pourkazemi.mahdi.dua.data.AppDatabaseImp
-import com.pourkazemi.mahdi.dua.data.model.prayers
-import com.pourkazemi.mahdi.dua.repository.PrayersRepository
+import com.pourkazemi.mahdi.dua.data.model.Prayers
+import com.pourkazemi.mahdi.dua.data.repository.PrayersRepository
 import com.pourkazemi.mahdi.dua.ui.component.TextItem
 import com.pourkazemi.mahdi.dua.ui.screen.OnboardingScreen
 import com.pourkazemi.mahdi.dua.ui.theme.Dua_velayeTheme
@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun PrayerListScreen(prayers: List<prayers>) {
+fun PrayerListScreen(prayers: List<Prayers>) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         LazyColumn(modifier = Modifier.padding(innerPadding)) {
             items(prayers.size) { index ->
@@ -77,7 +77,7 @@ fun PrayerListScreen(prayers: List<prayers>) {
 
 
 @Composable
-fun TestText(prayers: List<prayers>) {
+fun TestText(prayers: List<Prayers>) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Text(modifier = Modifier.fillMaxWidth().padding(innerPadding), text = prayers.toString())
     }
@@ -85,7 +85,7 @@ fun TestText(prayers: List<prayers>) {
 
 @Composable
 fun MyApp(modifier: Modifier = Modifier,
-          prayers: List<prayers> ) {
+          prayers: List<Prayers> ) {
 
     var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
 

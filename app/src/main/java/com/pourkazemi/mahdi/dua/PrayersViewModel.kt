@@ -4,30 +4,30 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.pourkazemi.mahdi.dua.data.model.prayertext
-import com.pourkazemi.mahdi.dua.data.model.prayers
-import com.pourkazemi.mahdi.dua.repository.PrayersRepository
+import com.pourkazemi.mahdi.dua.data.model.Prayertext
+import com.pourkazemi.mahdi.dua.data.model.Prayers
+import com.pourkazemi.mahdi.dua.data.repository.PrayersRepository
 import kotlinx.coroutines.launch
 
 class PrayersViewModel(private val repository: PrayersRepository) : ViewModel() {
 
-    val allPrayers: LiveData<List<prayers>> = repository.allPrayers.asLiveData()
+    val allPrayers: LiveData<List<Prayers>> = repository.allPrayers.asLiveData()
 
-    fun getPrayerById(prayerId: Int): LiveData<prayers?> =
+    fun getPrayerById(prayerId: Int): LiveData<Prayers?> =
         repository.getPrayerById(prayerId).asLiveData()
 
-    fun getPrayerTextsByPrayerId(prayerId: Int): LiveData<List<prayertext>> =
+    fun getPrayerTextsByPrayerId(prayerId: Int): LiveData<List<Prayertext>> =
         repository.getPrayerTextsByPrayerId(prayerId).asLiveData()
 
-    fun insertPrayer(prayer: prayers) = viewModelScope.launch {
+    fun insertPrayer(prayer: Prayers) = viewModelScope.launch {
         repository.insertPrayer(prayer)
     }
 
-    fun updatePrayer(prayer: prayers) = viewModelScope.launch {
+    fun updatePrayer(prayer: Prayers) = viewModelScope.launch {
         repository.updatePrayer(prayer)
     }
 
-    fun deletePrayer(prayer: prayers) = viewModelScope.launch {
+    fun deletePrayer(prayer: Prayers) = viewModelScope.launch {
         repository.deletePrayer(prayer)
     }
 }

@@ -2,7 +2,7 @@ package com.pourkazemi.mahdi.dua
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.pourkazemi.mahdi.dua.repository.PrayersRepository
+import com.pourkazemi.mahdi.dua.data.repository.PrayersRepository
 
 class PrayersViewModelFactory(private val repository: PrayersRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
