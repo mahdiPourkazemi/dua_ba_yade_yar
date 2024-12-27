@@ -40,8 +40,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pourkazemi.mahdi.dua.ui.preview.FullPreview
 
-@Preview(showBackground = true)
+@FullPreview()
 @Composable
 fun MyTextPreview() {
     TextItem(
