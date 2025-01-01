@@ -1,10 +1,12 @@
 package com.pourkazemi.mahdi.dua.data.model
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 
 @Entity(
     tableName = "prayertext",
@@ -18,7 +20,7 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index(value = ["prayerid"])]
 )
-data class Prayertext(
+data class PrayerText(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Int,
@@ -28,4 +30,14 @@ data class Prayertext(
     val text: String,
     @ColumnInfo(name = "translation")
     val translation: String
+)
+
+//#Todo check speed of this query instead of above query(model)
+data class PrayerWithText(
+    @Embedded val prayer: Prayers,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "prayerid"
+    )
+    val texts: List<PrayerText> = emptyList()
 )

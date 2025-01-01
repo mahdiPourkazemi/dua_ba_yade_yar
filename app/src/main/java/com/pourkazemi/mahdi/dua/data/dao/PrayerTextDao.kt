@@ -5,28 +5,36 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
-import com.pourkazemi.mahdi.dua.data.model.Prayertext
+import com.pourkazemi.mahdi.dua.data.model.PrayerText
+import com.pourkazemi.mahdi.dua.data.model.PrayerWithText
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PrayerTextDao {
 
     @Query("SELECT * FROM prayertext")
-    fun getAllPrayerTexts(): Flow<List<Prayertext>>
+    fun getAllPrayerTexts(): Flow<List<PrayerText>>
 
     @Query("SELECT * FROM prayertext WHERE id = :textId")
-    fun getPrayerTextById(textId: Int): Flow<Prayertext?>
+    fun getPrayerTextById(textId: Int): Flow<PrayerText?>
 
     @Query("SELECT * FROM prayertext WHERE prayerid = :prayerId")
-    fun getPrayerTextsByPrayerId(prayerId: Int): Flow<List<Prayertext>>
+    fun getPrayerTextsByPrayerId(prayerId: Int): Flow<List<PrayerText>>
+
+    //#Todo check speed of this query instead of above query
+    @Transaction
+    @Query("SELECT * FROM prayers WHERE id = :prayerId")
+    fun getPrayerWithTextsList(prayerId: Int): Flow<PrayerWithText>
+    //
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPrayerText(prayerText: Prayertext)
+    suspend fun insertPrayerText(prayerText: PrayerText)
 
     @Update
-    suspend fun updatePrayerText(prayerText: Prayertext)
+    suspend fun updatePrayerText(prayerText: PrayerText)
 
     @Delete
-    suspend fun deletePrayerText(prayerText: Prayertext)
+    suspend fun deletePrayerText(prayerText: PrayerText)
 }

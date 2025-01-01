@@ -6,11 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.pourkazemi.mahdi.dua.data.dao.PrayerTextDao
 import com.pourkazemi.mahdi.dua.data.dao.PrayersDao
-import com.pourkazemi.mahdi.dua.data.model.Prayertext
+import com.pourkazemi.mahdi.dua.data.model.PrayerText
 import com.pourkazemi.mahdi.dua.data.model.Prayers
 
 @Database(
-    entities = [Prayers::class, Prayertext::class],
+    entities = [Prayers::class, PrayerText::class],
     exportSchema = true, // Good practice for version control
     version = 1)
 abstract class AppDatabaseImp : RoomDatabase() {
