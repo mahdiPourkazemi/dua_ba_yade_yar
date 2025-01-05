@@ -1,4 +1,4 @@
-package com.pourkazemi.mahdi.dua
+package com.pourkazemi.mahdi.dua.viewModelAndUtils
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -29,12 +29,12 @@ interface PrayerTextDao {
     fun getPrayerWithTextsList(prayerId: Int): Flow<PrayerWithText>
     //
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+/*    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPrayerText(prayerText: PrayerText)
 
     @Update
     suspend fun updatePrayerText(prayerText: PrayerText)
 
     @Delete
-    suspend fun deletePrayerText(prayerText: PrayerText)
+    suspend fun deletePrayerText(prayerText: PrayerText)*/
 }

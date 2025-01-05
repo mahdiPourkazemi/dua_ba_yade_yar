@@ -23,9 +23,9 @@ import kotlinx.coroutines.delay
 
 //#Todo customize and put some icon and text to introduce me and Daralvelaye
 @Composable
-fun OnboardingScreen(
+fun SplashScreen(
     modifier: Modifier = Modifier,
-    onContinueClicked: () -> Unit
+    //onContinueClicked: () -> Unit
 ) {
     // State to control the visibility of the splash screen
     var showSplashScreen by remember { mutableStateOf(true) }
@@ -47,7 +47,7 @@ fun OnboardingScreen(
             Button(
                 modifier = Modifier
                     .padding(vertical = 24.dp),
-                onClick = onContinueClicked
+                onClick = {}
             ) {
                 Text("Continue")
             }
@@ -73,7 +73,7 @@ fun OnboardingScreen(
 @Preview
 @Composable
 fun OnBoardingPreview() {
-    OnboardingScreen {
+    SplashScreen() /*{
         println("Dua SplashScreen OnBoardingPreview Clicked")
-    }
+    }*/
 }

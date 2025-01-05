@@ -11,20 +11,33 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
+import androidx.compose.material.icons.rounded.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -40,8 +53,11 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import com.pourkazemi.mahdi.dua.ui.preview.FullPreview
 
@@ -52,104 +68,87 @@ fun DuaItem(
     traText: String = "translate",
     style: TextStyle,
 ) {
-    var viewTranslation by rememberSaveable { mutableStateOf(false) }
+        var viewTranslation by rememberSaveable { mutableStateOf(false) }
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth(),
-            //.padding(horizontal = 8.dp, vertical = 2.dp)
-            //.clickable(onClick = clickOnItem), // کلیک روی کل کارت
-        border = BorderStroke(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 2.dp,
-            pressedElevation = 4.dp
-        ),
-        //shape = MaterialTheme.shapes.large,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
-    ) {
-        Column(
+        ElevatedCard(
             modifier = Modifier
-                .fillMaxWidth()
-                //.safeContentPadding()
-                //.padding(8.dp)
-                //.padding( start = 8.dp, end = 8.dp, bottom = 0.dp, top = 8.dp )
-                .animateContentSize(
-                    animationSpec = spring(
-                        dampingRatio = Spring.DampingRatioMediumBouncy,
-                        stiffness = Spring.StiffnessLow
-                    )
-                )
-        ) {
-            Text(
-                text = ColoredArabicText(text),
-                style = style,
-                //maxLines = 2,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
+                //.padding(16.dp)
+                .fillMaxWidth(),
+            shape = MaterialTheme.shapes.medium,
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
             )
-
-            Row(
+        ) {
+            Box(
                 modifier = Modifier
+                    //.padding(8.dp)
                     .fillMaxWidth()
-                    .align(alignment = Alignment.Start)
-                    .heightIn(21.dp)
-                    .padding(horizontal = 2.dp), // پدینگ عمودی کمتر
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically,
             ) {
-                // دکمه نمایش/مخفی کردن ترجمه
-                TextButton(
-                    onClick = { viewTranslation = !viewTranslation },
-                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp)
+                Column(
+                    modifier = Modifier.fillMaxWidth()//.padding(vertical = 8.dp)
+                //.padding(16.dp)
                 ) {
+                    Text(
+                        text = ColoredArabicText(text),
+                        style = style,
+                        //softWrap=true,
+                        //maxLines = 3,
+                        //minLines = 1,
+                        //overflow = TextOverflow.Visible,
+                        modifier = modifier//.padding(start=32.dp)//.fillMaxWidth()
+                    )
+
+                    // Translation Text
+                    AnimatedVisibility(
+                        visible = viewTranslation,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically()
+                    ) {
+
+                            Text(
+                                text = traText,
+                                style = style.copy(
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                ),
+                                modifier = modifier
+                                    .padding(
+                                        top = 8.dp
+                                    )
+                                    .fillMaxWidth()
+                            )
+
+                    }
+                }
+
+                FilledTonalIconButton(
+                    onClick = { viewTranslation = !viewTranslation },
+                    modifier = Modifier
+                        .align(Alignment.BottomStart),
+                    shape = CircleShape,
+                    colors = IconButtonDefaults.filledTonalIconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f),
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                )  {
                     Icon(
                         imageVector = if (viewTranslation)
-                            Filled.KeyboardArrowUp
+                            Icons.Rounded.KeyboardArrowUp
                         else
-                            Filled.KeyboardArrowDown,
+                            Icons.Rounded.KeyboardArrowDown,
                         contentDescription = if (viewTranslation)
-                            "نمایش کمتر"
+                            "Hide translation"
                         else
-                            "نمایش بیشتر",
-                        //modifier = modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        //modifier = modifier.alignByBaseline(),
-                        text = if (viewTranslation) "مخفی کردن ترجمه" else "نمایش ترجمه",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.secondary
+                            "Show translation",
+                        modifier = Modifier.size(20.dp)
                     )
                 }
             }
-
-            AnimatedVisibility(
-                visible = viewTranslation,
-                enter = expandVertically() + fadeIn(),
-                exit = shrinkVertically() + fadeOut()
-            ) {
-                Text(
-                    text = traText,
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                        //.padding( top = 4.dp, bottom = 16.dp, start = 16.dp, end = 16.dp ),
-                    style = style,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-
-                )
-            }
         }
     }
-}
 
-fun ColoredArabicText(text: String):AnnotatedString = buildAnnotatedString {
+
+
+    fun ColoredArabicText(text: String):AnnotatedString = buildAnnotatedString {
         text.forEach { char ->
             // بررسی اگر کاراکتر اعراب است، آن را رنگی کن
             if (char in "ًٌٍَُِّْ") { // اعراب عربی
@@ -168,7 +167,7 @@ fun ColoredArabicText(text: String):AnnotatedString = buildAnnotatedString {
 @Composable
 fun MyTextPreview() {
         DuaItem(
-            text = "مهدی پورکاظمی تست این است باید بیشتر بررسی شود",
+            text = "مهدی پورکاظمی تست این است باید بیشتر بررسی شود".repeat(3),
             traText = "معنی شود یا می شود پس بشود",
             style = MaterialTheme.typography.bodyLarge.copy(
                 textDirection = TextDirection.Rtl,

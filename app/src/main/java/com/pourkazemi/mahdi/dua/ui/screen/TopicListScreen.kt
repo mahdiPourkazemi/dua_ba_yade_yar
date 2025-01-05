@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -16,22 +18,33 @@ import com.pourkazemi.mahdi.dua.ui.component.TopicItem
 
 @Composable
 fun TopicListScreen(
-    modifier: Modifier = Modifier,
     prayers: List<Prayers>,
+    modifier: Modifier = Modifier,
     onItemClick: (Int) -> Unit,
 ) {
     val listState= rememberLazyListState()
-    LazyColumn(
-        state = listState,
-        contentPadding = PaddingValues(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier.fillMaxWidth()) {
-        items(prayers) { prayer ->
-            TopicItem(
-                modifier = modifier,
-                prayers = prayer,
-                onClick = { onItemClick(prayer.id) }
-            )
+
+    Surface(
+        color = MaterialTheme.colorScheme.background,
+        contentColor = MaterialTheme.colorScheme.onBackground,
+        modifier = modifier.fillMaxSize()
+    ) {
+        LazyColumn(
+            state = listState,
+            contentPadding = PaddingValues(
+                horizontal = 16.dp,
+                vertical = 8.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = modifier.fillMaxWidth()
+        ) {
+            items(prayers) { prayer ->
+                TopicItem(
+                    modifier = modifier,
+                    prayers = prayer,
+                    onClick = { onItemClick(prayer.id) }
+                )
+            }
         }
     }
 }

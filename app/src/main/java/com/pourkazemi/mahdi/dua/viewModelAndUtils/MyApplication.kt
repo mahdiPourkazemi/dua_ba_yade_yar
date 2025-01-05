@@ -1,4 +1,4 @@
-package com.pourkazemi.mahdi.dua
+package com.pourkazemi.mahdi.dua.viewModelAndUtils
 
 import android.app.Application
 import com.pourkazemi.mahdi.dua.data.container.AppContainer

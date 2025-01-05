@@ -21,10 +21,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -46,16 +50,19 @@ fun TopicItem(
 ) {
     var isExpanded by rememberSaveable { mutableStateOf(false) }
 
-    Card(
+    ElevatedCard (
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() },
-        border = BorderStroke(
+        /*border = BorderStroke(
             width = 1.dp,
             color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-        ),
+        ),*/
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     ) {
         Column(
             modifier = Modifier
@@ -72,29 +79,36 @@ fun TopicItem(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                TextButton(
+                FilledTonalButton(
                     onClick = { isExpanded = !isExpanded },
-                    contentPadding = PaddingValues(horizontal = 8.dp)
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                    colors = ButtonDefaults.filledTonalButtonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    ),
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier.padding(8.dp)
                 ) {
                     Icon(
                         imageVector = if (isExpanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         modifier = Modifier.padding(horizontal = 4.dp),
                         text = if (isExpanded) "مخفی کردن توضیحات" else "نمایش توضیحات",
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.secondary
                     )
                 }
                 Text(
                     text = prayers.name,
-                    style = MaterialTheme.typography.bodyLarge.copy(
+                    /*style = MaterialTheme.typography.bodyLarge.copy(
                         textDirection = TextDirection.Rtl,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ),
+                        //color = MaterialTheme.colorScheme.
+                    ),*/
+                    style = MaterialTheme.typography.bodyLarge,
+                    //color = MaterialTheme.colorScheme.onSurface,
                     modifier = modifier
                         .padding(16.dp)
                         .fillMaxWidth()
@@ -111,10 +125,12 @@ fun TopicItem(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 24.dp, vertical = 16.dp),
-                    style = MaterialTheme.typography.bodyMedium.copy(
+                    /*style = MaterialTheme.typography.bodyMedium.copy(
                         textDirection = TextDirection.Rtl,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                    ),*/
+                    style = MaterialTheme.typography.bodyMedium,
+                    //color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

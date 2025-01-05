@@ -17,9 +17,9 @@ interface PrayerRepository {
     fun getPrayerWithTextsList(prayerId: Int): Flow<PrayerWithText>
     //
 
-    suspend fun insertPrayer(prayer: Prayers)
+/*    suspend fun insertPrayer(prayer: Prayers)
 
     suspend fun updatePrayer(prayer: Prayers)
 
-    suspend fun deletePrayer(prayer: Prayers)
+    suspend fun deletePrayer(prayer: Prayers)*/
 }

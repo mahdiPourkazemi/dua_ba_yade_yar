@@ -27,16 +27,15 @@ import androidx.compose.ui.unit.Constraints
          text: String,
          textMeasurer: TextMeasurer,
          maxWidth: Int,
-         textStyle: TextStyle,
-
-         ): List<String> {
+         textStyle: TextStyle
+     ): List<String> {
          val chunks = mutableListOf<String>()
-         val words = text.split(" ") // کلمات را با حفظ فاصله‌ها جدا می‌کنیم
+         val words = text.split(" ")
          val currentChunk = StringBuilder()
-         val currentLine = StringBuilder()
 
          for ((index, word) in words.withIndex()) {
-             val testLine = if (currentLine.isEmpty()) word else "${currentLine} $word"
+             val testLine = if (currentChunk.isEmpty()) word
+             else "${currentChunk.toString().trimEnd()} $word"
 
              val textLayoutResult = textMeasurer.measure(
                  text = testLine,
@@ -48,14 +47,12 @@ import androidx.compose.ui.unit.Constraints
                  // اگر کلمه جدید باعث اضافه شدن خط شود
                  chunks.add(currentChunk.toString().trimEnd())
                  currentChunk.clear()
-                 currentChunk.append(word).append(" ")
-                 currentLine.clear()
-                 currentLine.append(word)
-             } else {
-                 // کلمه فعلی را به خط و قطعه اضافه کن
-                 currentLine.append(" ").append(word)
                  currentChunk.append(word)
                  if (index < words.lastIndex) currentChunk.append(" ")
+             } else {
+                 // کلمه فعلی را به قطعه اضافه کن
+                 if (!currentChunk.isEmpty()) currentChunk.append(" ")
+                 currentChunk.append(word)
              }
          }
 

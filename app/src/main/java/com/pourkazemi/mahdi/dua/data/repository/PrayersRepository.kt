@@ -24,7 +24,7 @@ class PrayersRepository(
         prayerTextDao.getPrayerWithTextsList(prayerId)
     //
 
-    override suspend fun insertPrayer(prayer: Prayers) {
+/*    override suspend fun insertPrayer(prayer: Prayers) {
         prayersDao.insertPrayer(prayer)
     }
 
@@ -34,5 +34,5 @@ class PrayersRepository(
 
     override suspend fun deletePrayer(prayer: Prayers) {
         prayersDao.deletePrayer(prayer)
-    }
+    }*/
 }

@@ -18,12 +18,12 @@ interface PrayersDao {
     @Query("SELECT * FROM prayers WHERE id = :prayerId")
     fun getPrayerById(prayerId: Int): Flow<Prayers?>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+/*    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPrayer(prayer: Prayers)
 
     @Update
     suspend fun updatePrayer(prayer: Prayers)
 
     @Delete
-    suspend fun deletePrayer(prayer: Prayers)
+    suspend fun deletePrayer(prayer: Prayers)*/
 }

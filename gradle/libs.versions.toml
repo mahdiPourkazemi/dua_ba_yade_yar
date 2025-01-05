@@ -9,6 +9,7 @@ lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
 composeBom = "2024.12.01"
 constraintlayout = "2.2.0"
+navigationCompose = "2.8.5"
 roomCommon = "2.6.1"
 roomKtx = "2.6.1"
 lifecycleLivedataKtx = "2.8.7"
@@ -16,6 +17,7 @@ runtimeLivedata = "1.7.6"
 room = "2.6.1" # Replace with your desired Room version
 
 [libraries]
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 

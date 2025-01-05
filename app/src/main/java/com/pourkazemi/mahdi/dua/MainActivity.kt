@@ -1,8 +1,7 @@
 package com.pourkazemi.mahdi.dua
 
-import android.app.Application
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,16 +14,18 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.pourkazemi.mahdi.dua.data.model.Prayers
-import com.pourkazemi.mahdi.dua.ui.screen.DuaScreen
-import com.pourkazemi.mahdi.dua.ui.screen.OnboardingScreen
-import com.pourkazemi.mahdi.dua.ui.theme.Dua_velayeTheme
+import com.pourkazemi.mahdi.dua.ui.screen.TopicListScreen
+import com.pourkazemi.mahdi.dua.ui.theme.DuaTheme
+import com.pourkazemi.mahdi.dua.viewModelAndUtils.MyApplication
+import com.pourkazemi.mahdi.dua.viewModelAndUtils.PrayersViewModel
+import com.pourkazemi.mahdi.dua.viewModelAndUtils.PrayersViewModelFactory
 
 class MainActivity : ComponentActivity() {
     //#2 private lateinit var prayersViewModel: PrayersViewModel
@@ -42,9 +43,32 @@ class MainActivity : ComponentActivity() {
         //prayersViewModel = ViewModelProvider(this, factory).get(PrayersViewModel::class.java)
 
         setContent {
-            Dua_velayeTheme {
-                val prayerText by prayersViewModel.getPrayerWithTextsList(2).observeAsState()
-                prayerText?.texts?.get(0)?.let { DuaScreen(it) }
+            DuaTheme {
+                //val prayerText by prayersViewModel.getPrayerWithTextsList(2).collectAsState(initial = emptyList<PrayerWithText>())
+                //val prayerText by prayersViewModel.prayerTexts.collectAsState()
+
+                val prayers =prayersViewModel.allPrayersState.collectAsState()
+                TopicListScreen(prayers= prayers.value)  {
+                    Toast.makeText(this, "Hello, Toast! $it", Toast.LENGTH_SHORT).show()
+                }
+                // جمع‌آوری وضعیت UI از ViewModel
+                /*val uiState by prayersViewModel.prayerUiState.collectAsState()
+
+                // UI بر اساس وضعیت
+                when (uiState.PrayerUiState) {
+                    is Loading -> {
+                        SplashScreen() // اسپلش اسکرین برای حالت Loading
+                    }
+                    is Success -> {
+                        val prayerWithText = (uiState as PrayerUiState.Success).prayerWithText
+                        prayerWithText.texts.getOrNull(0)?.let { DuaScreen(it) }
+                    }
+                    is Error -> {
+                        Text("An error occurred. Please try again.") // پیام خطا
+                    }
+
+                }*/
+
 
                 /*val prayers by prayersViewModel.allPrayers.observeAsState(emptyList())
                 Log.d("Debug", "Prayers loaded: ${prayers.size}")
@@ -96,7 +120,7 @@ fun MyApp(modifier: Modifier = Modifier,
 
     Surface(modifier) {
         if (shouldShowOnboarding) {
-            OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
+            //OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
         } else {
             PrayerListScreen(prayers)
         }
