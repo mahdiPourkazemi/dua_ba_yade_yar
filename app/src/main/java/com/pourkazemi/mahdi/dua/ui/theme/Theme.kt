@@ -1,8 +1,6 @@
 package com.pourkazemi.mahdi.dua.ui.theme
 
-import android.app.Activity
 import android.os.Build
-import android.provider.CalendarContract
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -10,51 +8,54 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource.Companion.SideEffect
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
 
 val DarkColorScheme = darkColorScheme(
-    primary = BluePrimary,                // رنگ اصلی در حالت دارک
-    onPrimary = WhiteText,                // رنگ متن روی دکمه‌های اصلی
-    primaryContainer = BlueLight,         // رنگ پس‌زمینه دکمه‌های اصلی
-    onPrimaryContainer = WhiteText,       // رنگ متن روی دکمه‌های اصلی در حالت Hover
+    background = BackgroundDark, // پس‌زمینه تیره
+    onBackground = Ivory80,      // متن روی پس‌زمینه
 
-    secondary = BlueAccent,               // رنگ ثانویه (برای تاکید‌ها)
-    onSecondary = WhiteText,              // رنگ متن روی تاکید‌ها
-    secondaryContainer = BlueLight,       // رنگ پس‌زمینه تاکید‌ها
-    onSecondaryContainer = WhiteText,     // رنگ متن تاکید‌ها در حالت Hover
+    surface = Lapis40,           // رنگ سطوح
+    onSurface = WhiteText,       // متن روی سطوح
 
-    background = BlueLight,               // پس‌زمینه کلی اپلیکیشن در حالت دارک
-    onBackground = WhiteText,             // رنگ متن اصلی روی پس‌زمینه دارک
-    surface = BluePrimary,                // سطح‌های مختلف
-    onSurface = WhiteText,                // متن روی سطوح
-    surfaceVariant = DividerColor,        // سطوح مختلف (کارت‌ها و ...)
-    onSurfaceVariant = PrimaryText        // متن روی سطح‌های واریانت
+    primary = Turquoise80,       // رنگ اصلی (برای دکمه‌ها)
+    onPrimary = WhiteText,       // متن روی رنگ اصلی
+
+    secondary = Gold40,          // رنگ ثانویه
+    onSecondary = WhiteText,     // متن روی رنگ ثانویه
+    onSecondaryContainer = Gold40.copy(alpha = 0.7f), // پس‌زمینه برای دکمه‌ها یا کادرهای تاکید
+
+    error = Color(0xFFFF5252),   // رنگ خطا
+    onError = WhiteText,         // متن روی خطا
+
+    outline = Ivory40,           // خطوط یا مرزبندی
+    surfaceVariant = Lapis80,    // حالت‌های مختلف سطوح
+    onSurfaceVariant = Ivory80   // متن روی حالت‌های مختلف سطوح
 )
 
 val LightColorScheme = lightColorScheme(
-    primary = BluePrimary,                // رنگ اصلی در حالت لایت
-    onPrimary = WhiteText,                // رنگ متن روی دکمه‌های اصلی
-    primaryContainer = LightPrimary,      // رنگ پس‌زمینه دکمه‌های اصلی
-    onPrimaryContainer = BluePrimary,     // رنگ متن روی دکمه‌های اصلی در حالت Hover
+    background = BackgroundLight, // پس‌زمینه روشن
+    onBackground = TextPrimaryLight, // متن روی پس‌زمینه
 
-    secondary = BlueAccent,               // رنگ ثانویه (برای تاکید‌ها)
-    onSecondary = WhiteText,              // رنگ متن روی تاکید‌ها
-    secondaryContainer = LightPrimary,    // رنگ پس‌زمینه تاکید‌ها
-    onSecondaryContainer = WhiteText,     // رنگ متن تاکید‌ها در حالت Hover
+    surface = Ivory80,            // رنگ سطوح
+    onSurface = TextPrimaryLight, // متن روی سطوح
 
-    background = LightPrimary,            // پس‌زمینه کلی اپلیکیشن در حالت لایت
-    onBackground = PrimaryText,           // رنگ متن اصلی روی پس‌زمینه لایت
-    surface = LightPrimary,               // سطح‌های مختلف
-    onSurface = PrimaryText,              // متن روی سطوح
-    surfaceVariant = DividerColor,        // سطوح مختلف (کارت‌ها و ...)
-    onSurfaceVariant = SecondaryText      // متن روی سطح‌های واریانت
+    primary = AccentTurquoise,    // رنگ اصلی
+    onPrimary = PrimaryText,      // متن روی رنگ اصلی
+
+    secondary = Turquoise40,      // رنگ ثانویه
+    onSecondary = WhiteText,      // متن روی رنگ ثانویه
+    onSecondaryContainer = Turquoise40.copy(alpha = 0.7f), // پس‌زمینه تاکید
+
+    error = Gold40,               // رنگ خطا
+    onError = WhiteText,          // متن روی خطا
+
+    outline = Lapis40,            // خطوط یا مرزبندی
+    surfaceVariant = Ivory40,     // حالت‌های مختلف سطوح
+    onSurfaceVariant = Lapis80    // متن روی حالت‌های مختلف سطوح
 )
+
+
 
 
 
@@ -79,7 +80,7 @@ fun DuaTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = MyTypography,
         content = content
     )
 }

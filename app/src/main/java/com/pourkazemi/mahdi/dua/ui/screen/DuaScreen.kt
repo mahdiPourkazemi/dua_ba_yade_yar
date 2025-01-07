@@ -64,7 +64,8 @@ fun DuaScreen(
                 DuaItem(
                     text = originalLine,
                     traText = translatedLine,
-                    style = textStyle,
+                    textStyle =textStyle,
+                    traTextStyle = textStyle,
                     modifier = modifier
                         //.fillMaxWidth()
                         .padding(

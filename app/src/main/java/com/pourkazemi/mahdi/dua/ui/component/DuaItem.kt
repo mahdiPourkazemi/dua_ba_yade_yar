@@ -60,42 +60,40 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import com.pourkazemi.mahdi.dua.ui.preview.FullPreview
+import com.pourkazemi.mahdi.dua.ui.theme.Turquoise80
 
 @Composable
 fun DuaItem(
     modifier: Modifier = Modifier,
     text: String = "default",
     traText: String = "translate",
-    style: TextStyle,
+    textStyle: TextStyle,               //# Todo add tratext style and
+    traTextStyle: TextStyle,               //# Todo add tratext style and
 ) {
         var viewTranslation by rememberSaveable { mutableStateOf(false) }
 
         ElevatedCard(
             modifier = Modifier
-                //.padding(16.dp)
                 .fillMaxWidth(),
             shape = MaterialTheme.shapes.medium,
             colors = CardDefaults.elevatedCardColors(
-                containerColor = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface
             )
         ) {
             Box(
                 modifier = Modifier
-                    //.padding(8.dp)
                     .fillMaxWidth()
             ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth()//.padding(vertical = 8.dp)
+                    modifier = Modifier.fillMaxWidth()
                 //.padding(16.dp)
                 ) {
                     Text(
-                        text = ColoredArabicText(text),
-                        style = style,
-                        //softWrap=true,
-                        //maxLines = 3,
-                        //minLines = 1,
-                        //overflow = TextOverflow.Visible,
-                        modifier = modifier//.padding(start=32.dp)//.fillMaxWidth()
+                        text = text,
+                        style = textStyle.copy(
+                            color = MaterialTheme.colorScheme.onSurface // رنگ متن اصلی
+                        ),
+                        modifier = modifier
                     )
 
                     // Translation Text
@@ -107,10 +105,10 @@ fun DuaItem(
 
                             Text(
                                 text = traText,
-                                style = style.copy(
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                style = traTextStyle.copy(
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant // رنگ متن ترجمه
                                 ),
-                                modifier = modifier
+                                        modifier = modifier
                                     .padding(
                                         top = 8.dp
                                     )
@@ -126,11 +124,12 @@ fun DuaItem(
                         .align(Alignment.BottomStart),
                     shape = CircleShape,
                     colors = IconButtonDefaults.filledTonalIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f),
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                        containerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f),
+                        contentColor = MaterialTheme.colorScheme.onSecondary
                     )
                 )  {
                     Icon(
+                        tint = MaterialTheme.colorScheme.secondary,
                         imageVector = if (viewTranslation)
                             Icons.Rounded.KeyboardArrowUp
                         else
@@ -139,7 +138,7 @@ fun DuaItem(
                             "Hide translation"
                         else
                             "Show translation",
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(20.dp),
                     )
                 }
             }
@@ -147,29 +146,17 @@ fun DuaItem(
     }
 
 
-
-    fun ColoredArabicText(text: String):AnnotatedString = buildAnnotatedString {
-        text.forEach { char ->
-            // بررسی اگر کاراکتر اعراب است، آن را رنگی کن
-            if (char in "ًٌٍَُِّْ") { // اعراب عربی
-                withStyle(style = SpanStyle(color = Color.Red)) {
-                    append(char)
-                }
-            } else {
-                withStyle(style = SpanStyle(color = Color.Black)) {
-                    append(char)
-                }
-            }
-        }
-    }
-
 @FullPreview()
 @Composable
 fun MyTextPreview() {
         DuaItem(
             text = "مهدی پورکاظمی تست این است باید بیشتر بررسی شود".repeat(3),
             traText = "معنی شود یا می شود پس بشود",
-            style = MaterialTheme.typography.bodyLarge.copy(
+            textStyle  = MaterialTheme.typography.bodyLarge.copy(
+                textDirection = TextDirection.Rtl,
+                color = MaterialTheme.colorScheme.onSurface
+            ),
+            traTextStyle = MaterialTheme.typography.bodyLarge.copy(
                 textDirection = TextDirection.Rtl,
                 color = MaterialTheme.colorScheme.onSurface
             ),

@@ -1,89 +1,74 @@
 package com.pourkazemi.mahdi.dua.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.text.Paragraph
+import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import com.pourkazemi.mahdi.dua.R
 
+/*// اضافه کردن ارائه‌دهنده فونت
+val provider = GoogleFont.Provider(
+    providerAuthority = "com.google.android.gms.fonts",
+    providerPackage = "com.google.android.gms",
+    certificates = R.array.com_google_android_gms_fonts_certs
+)
+// تعریف فونت گوگل
+val fontName = GoogleFont("Amiri Quran")
+// ساخت فونت‌فمیلی با فونت گوگل
+val AmiriFontFamily = FontFamily(
+    Font(
+        googleFont = fontName,
+        fontProvider = provider,
+        weight = FontWeight.Medium,
+        style = FontStyle.Normal
+    )
+)*/
 
-// تعریف فونت‌های وزیر
-val VazirmatnFontFamily = FontFamily(
-    Font(R.font.nabi, FontWeight.Normal),
-    Font(R.font.nabi, FontWeight.Medium),
-    Font(R.font.nabi, FontWeight.Bold),
-    Font(R.font.nabi, FontWeight.Light)
+val AmiriFontFamily = FontFamily(
+    Font(R.font.amiriregular, FontWeight.Medium),
+    Font(R.font.amiribold, FontWeight.Bold),
+    Font(R.font.amiriquran, FontWeight.Normal),//Todo test this
+    Font(R.font.amiriqurancolored, FontWeight.W100)
 )
 
-// Typography طبق متریال دیزاین 3
-val Typography = Typography(
-    // Body Large - برای متن‌های اصلی
-    bodyLarge = TextStyle(
-        fontFamily = VazirmatnFontFamily,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 33.sp,
-        letterSpacing = 4.sp,
-        textDirection = TextDirection.Rtl,
-        textAlign = TextAlign.Right
-    ),
 
-    // Body Medium
+// تعریف LineBreak برای پاراگراف
+val customTitleLineBreak = LineBreak(
+    strategy = LineBreak.Strategy.Balanced,
+    strictness = LineBreak.Strictness.Strict,
+    wordBreak = LineBreak.WordBreak.Default
+)
+
+// Typography به‌روزرسانی‌شده
+val MyTypography = Typography(
+
     bodyMedium = TextStyle(
-        fontFamily = VazirmatnFontFamily,
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        lineHeight = 30.sp,
-        letterSpacing = 5.sp,
-        textDirection = TextDirection.Rtl,
-        textAlign = TextAlign.Right
+        fontFamily = AmiriFontFamily,
+        fontWeight = FontWeight.Medium,
+        lineHeight = 40.sp,
+        fontSize = 18.sp, // تنظیم سایز فونت
+        textAlign = TextAlign.Right, // تراز به سمت راست
+        textDirection = TextDirection.Rtl, // جهت متن راست به چپ
+        lineBreak = customTitleLineBreak // اعمال LineBreak
     ),
 
-    // Body Small
     bodySmall = TextStyle(
-        fontFamily = VazirmatnFontFamily,
+        fontFamily = AmiriFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 6.sp,
-        textDirection = TextDirection.Rtl,
-        textAlign = TextAlign.Right
-    ),
-
-    // Label Large - برای برچسب‌ها
-    labelLarge = TextStyle(
-        fontFamily = VazirmatnFontFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 2.sp,
-        textDirection = TextDirection.Rtl,
-        textAlign = TextAlign.Right
-    ),
-
-    // Label Medium
-    labelMedium = TextStyle(
-        fontFamily = VazirmatnFontFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 2.sp,
-        textDirection = TextDirection.Rtl,
-        textAlign = TextAlign.Right
-    ),
-
-    // Label Small
-    labelSmall = TextStyle(
-        fontFamily = VazirmatnFontFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 4.sp,
-        textDirection = TextDirection.Rtl,
-        textAlign = TextAlign.Right
+        fontSize = 12.sp, // تنظیم سایز فونت
+        textAlign = TextAlign.Right, // تراز به سمت راست
+        textDirection = TextDirection.Rtl, // جهت متن راست به چپ
+        lineBreak = customTitleLineBreak // اعمال LineBreak
     )
 )
+

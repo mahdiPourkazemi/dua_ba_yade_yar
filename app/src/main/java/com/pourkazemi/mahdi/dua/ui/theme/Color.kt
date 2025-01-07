@@ -23,11 +23,11 @@ val TextSecondaryLight = Color(0xFF357A79) // فیروزه‌ای تیره (مت
 val BackgroundDark = Color(0xFF1D3749) // لاجوردی بسیار تیره (پس‌زمینه حالت تاریک)
 
 // رنگ‌های تاکید
-val AccentTurquoise = Color(0xFF6BC1BE) // فیروزه‌ای روشن (موارد تأکیدی)
+val AccentTurquoise = Color(0xffadf2ef) // فیروزه‌ای روشن (موارد تأکیدی)
 val AccentLapis = Color(0xFF284B63) // لاجوردی (برای دکمه‌ها یا لینک‌ها)
 
 
-val BlueLight = Color(0xFF0097A7)        // رنگ فیروزه‌ای روشن
+val BlueLight = Color(0xff048493)        // رنگ فیروزه‌ای روشن
 val BluePrimary = Color(0xFF00BCD4)      // رنگ اصلی فیروزه‌ای
 val BlueAccent = Color(0xFF00BCD4)       // رنگ تاکید
 val WhiteText = Color(0xFFFFFFFF)        // رنگ متن سفید
