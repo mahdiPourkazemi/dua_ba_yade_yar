@@ -5,6 +5,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,20 +24,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.pourkazemi.mahdi.dua.data.model.PrayerText
+import com.pourkazemi.mahdi.dua.ui.theme.MyTypography
 
 @Composable
 fun AutoAdvancePager(pageItems: List<PrayerText>, modifier: Modifier = Modifier) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        val pagerState = rememberPagerState(pageCount = { pageItems.size })
-        val pageInteractionSource = remember { MutableInteractionSource() }
+    val density = LocalDensity.current
 
+    BoxWithConstraints(modifier = Modifier
+        .background(color = MaterialTheme.colorScheme.background)
+        .fillMaxSize()) {
+        val pagerState = rememberPagerState(pageCount = { pageItems.size })
+        //val pageInteractionSource = remember { MutableInteractionSource() }
+        val maxWidth = with(density) {
+            (maxWidth - 64.dp).toPx().toInt()
+        }
 
         HorizontalPager(
             state = pagerState
         ) { page ->
-
+            DuaScreen(
+                prayerText = pageItems.get(page),
+                maxWidth = maxWidth,
+                textStyle = MyTypography.bodyMedium,
+                translationTextStyle = MyTypography.bodySmall
+            )
         }
 
         PagerIndicator(pageItems.size, pagerState.currentPage)

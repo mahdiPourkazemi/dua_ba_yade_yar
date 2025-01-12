@@ -13,9 +13,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="DuaScreenPreview - Huge font">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="MyTextTestPreview - Foldable">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
@@ -27,14 +24,17 @@
       </SelectionState>
       <SelectionState runConfigName="T10Preview">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-01-07T20:46:05.333341400Z">
+        <DropdownSelection timestamp="2025-01-07T20:47:12.598193100Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\mahdi\.android\avd\Pixel_4_API_32.avd" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=f15d7ab5" />
             </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />
+      </SelectionState>
+      <SelectionState runConfigName="LazyTextLayoutPreview">
+        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>

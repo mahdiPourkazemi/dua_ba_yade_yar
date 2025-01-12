@@ -37,8 +37,6 @@ val AmiriFontFamily = FontFamily(
 val AmiriFontFamily = FontFamily(
     Font(R.font.amiriregular, FontWeight.Medium),
     Font(R.font.amiribold, FontWeight.Bold),
-    Font(R.font.amiriquran, FontWeight.Normal),//Todo test this
-    Font(R.font.amiriqurancolored, FontWeight.W100)
 )
 
 
@@ -54,7 +52,7 @@ val MyTypography = Typography(
 
     bodyMedium = TextStyle(
         fontFamily = AmiriFontFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         lineHeight = 40.sp,
         fontSize = 18.sp, // تنظیم سایز فونت
         textAlign = TextAlign.Right, // تراز به سمت راست

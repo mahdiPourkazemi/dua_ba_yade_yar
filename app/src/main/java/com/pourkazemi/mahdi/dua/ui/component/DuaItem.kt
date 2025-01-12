@@ -91,8 +91,9 @@ fun DuaItem(
                     Text(
                         text = text,
                         style = textStyle.copy(
-                            color = MaterialTheme.colorScheme.onSurface // رنگ متن اصلی
-                        ),
+                            color = MaterialTheme.colorScheme.onSurface, // رنگ متن اصلی
+                            textDirection = TextDirection.Rtl,
+                            ),
                         modifier = modifier
                     )
 
@@ -106,12 +107,13 @@ fun DuaItem(
                             Text(
                                 text = traText,
                                 style = traTextStyle.copy(
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant // رنگ متن ترجمه
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant, // رنگ متن ترجمه
+                                    textDirection = TextDirection.Rtl,
                                 ),
                                         modifier = modifier
-                                    .padding(
+                                    /*.padding(
                                         top = 8.dp
-                                    )
+                                    )*/
                                     .fillMaxWidth()
                             )
 

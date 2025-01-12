@@ -103,11 +103,11 @@ fun TopicItem(
                 }
                 Text(
                     text = prayers.name,
-                    /*style = MaterialTheme.typography.bodyLarge.copy(
+                    style = MaterialTheme.typography.bodyLarge.copy(
                         textDirection = TextDirection.Rtl,
                         //color = MaterialTheme.colorScheme.
-                    ),*/
-                    style = MaterialTheme.typography.bodyLarge,
+                    ),
+                    //style = MaterialTheme.typography.bodyLarge,
                     //color = MaterialTheme.colorScheme.onSurface,
                     modifier = modifier
                         .padding(16.dp)

@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -55,19 +56,15 @@ class PrayersViewModel(private val repository: PrayerRepository) : ViewModel() {
         repository.getPrayerWithTextsList(prayerId)
     //
 
-    private val _prayerUiState = MutableStateFlow<PrayerUiState?>(PrayerUiState.Loading)
-    val prayerUiState: StateFlow<PrayerUiState?> = _prayerUiState
+    private val _prayerUiState = MutableStateFlow<PrayerUiState>(PrayerUiState.Loading)
+    val prayerUiState: StateFlow<PrayerUiState> = _prayerUiState
 
     // دریافت داده از دیتابیس و ذخیره در StateFlow
     fun loadPrayer(prayerId: Int) {
         viewModelScope.launch {
             try {
-                val data = repository.getPrayerWithTextsList(prayerId).firstOrNull()
-                if (data != null) {
-                    _prayerUiState.value = PrayerUiState.Success(data)
-                } else {
-                    _prayerUiState.value = PrayerUiState.Error
-                }
+                val data = repository.getPrayerWithTextsList(prayerId)
+                _prayerUiState.value = PrayerUiState.Success(data.first())
             } catch (e: Exception) {
                 _prayerUiState.value = PrayerUiState.Error
             }

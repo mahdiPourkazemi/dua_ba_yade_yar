@@ -20,71 +20,83 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode.Companion.Screen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.pourkazemi.mahdi.dua.data.model.Prayers
+import com.pourkazemi.mahdi.dua.ui.screen.AutoAdvancePager
 import com.pourkazemi.mahdi.dua.ui.screen.TopicListScreen
 import com.pourkazemi.mahdi.dua.ui.theme.DuaTheme
 import com.pourkazemi.mahdi.dua.viewModelAndUtils.MyApplication
+import com.pourkazemi.mahdi.dua.viewModelAndUtils.PrayerUiState
 import com.pourkazemi.mahdi.dua.viewModelAndUtils.PrayersViewModel
 import com.pourkazemi.mahdi.dua.viewModelAndUtils.PrayersViewModelFactory
+import kotlinx.serialization.Serializable
 
 class MainActivity : ComponentActivity() {
-    //#2 private lateinit var prayersViewModel: PrayersViewModel
+
     private val prayersViewModel: PrayersViewModel by viewModels {
         PrayersViewModelFactory((application as MyApplication).container.prayerRepository)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-//#1
-       // val database = AppDatabaseImp.getDatabase(this).also { Log.d("Debug", "Database initialized") }
-        //val repository = PrayersRepository(database.prayersDao(), database.prayerTextDao()).also { Log.d("Debug", "Repository initialized") }
-        //val factory = PrayersViewModelFactory(repository).also { Log.d("Debug", "ViewModelFactory initialized") }
-//#2
-        //prayersViewModel = ViewModelProvider(this, factory).get(PrayersViewModel::class.java)
 
         setContent {
             DuaTheme {
-                //val prayerText by prayersViewModel.getPrayerWithTextsList(2).collectAsState(initial = emptyList<PrayerWithText>())
-                //val prayerText by prayersViewModel.prayerTexts.collectAsState()
+                val prayers by prayersViewModel.allPrayersState.collectAsStateWithLifecycle()
+                val navController = rememberNavController()
 
-                val prayers =prayersViewModel.allPrayersState.collectAsState()
-                TopicListScreen(prayers= prayers.value)  {
-                    Toast.makeText(this, "Hello, Toast! $it", Toast.LENGTH_SHORT).show()
+                NavHost(
+                    navController = navController,
+                    startDestination = MyScreen.TopicList.route
+                ) {
+                    // صفحه موضوعات (TopicList)
+                    composable(MyScreen.TopicList.route) {
+                        TopicListScreen(
+                            prayers = prayers,
+                            onItemClick = { prayerId ->
+                                prayersViewModel.loadPrayer(prayerId)
+                                navController.navigate(MyScreen.Dua.route)
+                            }
+                        )
+                    }
+
+                    // صفحه دعا (Dua)
+                    composable(MyScreen.Dua.route) {
+                        val prayerState by prayersViewModel.prayerUiState.collectAsStateWithLifecycle()
+
+                        when (val state = prayerState) {
+                            is PrayerUiState.Success -> {
+                                AutoAdvancePager(pageItems = state.prayerWithText.texts)
+                            }
+
+                            is PrayerUiState.Error -> {
+                                /*ErrorScreen(
+                                    message = state.errorMessage,
+                                    onRetry = { navController.popBackStack() }
+                                )*/
+                            }
+
+                            PrayerUiState.Loading -> {
+                                //LoadingScreen()
+                            }
+                        }
+                    }
                 }
-                // جمع‌آوری وضعیت UI از ViewModel
-                /*val uiState by prayersViewModel.prayerUiState.collectAsState()
 
-                // UI بر اساس وضعیت
-                when (uiState.PrayerUiState) {
-                    is Loading -> {
-                        SplashScreen() // اسپلش اسکرین برای حالت Loading
-                    }
-                    is Success -> {
-                        val prayerWithText = (uiState as PrayerUiState.Success).prayerWithText
-                        prayerWithText.texts.getOrNull(0)?.let { DuaScreen(it) }
-                    }
-                    is Error -> {
-                        Text("An error occurred. Please try again.") // پیام خطا
-                    }
-
-                }*/
-
-
-                /*val prayers by prayersViewModel.allPrayers.observeAsState(emptyList())
-                Log.d("Debug", "Prayers loaded: ${prayers.size}")
-                if(prayers.isEmpty()){
-                    MyApp(Modifier,prayers)
-                }else{
-                    //TestText(prayers)
-                    PrayerListScreen(prayers)
-                }*/
-
-                /*prayersViewModel.insertPrayer(
-                    prayers(id = 100, name = "test", description = "test")
-                )*/
             }
         }
     }
+}
+
+
+sealed class MyScreen(val route: String) {
+    object TopicList : MyScreen("topic_list")
+    object Dua : MyScreen("dua")
 }
 
 @Composable
@@ -104,13 +116,6 @@ fun PrayerListScreen(prayers: List<Prayers>) {
     }
 }
 
-
-@Composable
-fun TestText(prayers: List<Prayers>) {
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        Text(modifier = Modifier.fillMaxWidth().padding(innerPadding), text = prayers.toString())
-    }
-}
 
 @Composable
 fun MyApp(modifier: Modifier = Modifier,
