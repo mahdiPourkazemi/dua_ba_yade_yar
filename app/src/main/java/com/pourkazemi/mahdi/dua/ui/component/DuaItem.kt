@@ -54,7 +54,8 @@ class TranslationState(
 
     fun toggleIndividualTranslation(itemId: Int) {
         val isCurrentlyVisible = isTranslationVisible(itemId)
-        individualStates = individualStates + (itemId to !isCurrentlyVisible)    }
+        individualStates = individualStates + (itemId to !isCurrentlyVisible)
+    }
 
     fun isTranslationVisible(itemId: Int): Boolean {
         return individualStates[itemId] ?: globalTranslationEnabled
@@ -96,7 +97,8 @@ fun DuaItem(
         modifier = Modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
         )
     ) {
         Box(
@@ -111,6 +113,7 @@ fun DuaItem(
                         color = MaterialTheme.colorScheme.onSurface,
                         textDirection = TextDirection.Rtl
                     ),
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = modifier
                 )
 
@@ -125,6 +128,7 @@ fun DuaItem(
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             textDirection = TextDirection.Rtl
                         ),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = modifier.fillMaxWidth()
                     )
                 }
@@ -135,12 +139,12 @@ fun DuaItem(
                 modifier = Modifier.align(Alignment.BottomStart),
                 shape = CircleShape,
                 colors = IconButtonDefaults.filledTonalIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f),
-                    contentColor = MaterialTheme.colorScheme.onSecondary
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f),
+                    contentColor = MaterialTheme.colorScheme.secondaryContainer
                 )
             ) {
                 Icon(
-                    tint = MaterialTheme.colorScheme.secondary,
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
                     imageVector = if (showTranslation)
                         Icons.Rounded.KeyboardArrowUp
                     else

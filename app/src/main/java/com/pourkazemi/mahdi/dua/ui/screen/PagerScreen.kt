@@ -16,6 +16,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pourkazemi.mahdi.dua.data.model.PrayerText
 import com.pourkazemi.mahdi.dua.ui.component.TranslationState
@@ -38,14 +40,16 @@ fun AutoAdvancePager(
     translationState: TranslationState,
 ) {
     val density = LocalDensity.current
+    val paddingOfElement=64.dp
 
     BoxWithConstraints(modifier = Modifier
-        .background(color = MaterialTheme.colorScheme.background)
-        .fillMaxSize()) {
+        .background(MaterialTheme.colorScheme.background)
+        .fillMaxSize()
+    ) {
         val pagerState = rememberPagerState(pageCount = { pageItems.size })
-        //val pageInteractionSource = remember { MutableInteractionSource() }
+
         val maxWidth = with(density) {
-            (maxWidth - 64.dp).toPx().toInt()
+            (maxWidth - paddingOfElement).toPx().toInt()
         }
 
         HorizontalPager(
@@ -67,25 +71,50 @@ fun AutoAdvancePager(
 }
 
 @Composable
-fun PagerIndicator(pageCount: Int, currentPageIndex: Int, modifier: Modifier = Modifier) {
-    Box(modifier = Modifier.fillMaxSize()) {
+fun PagerIndicator(
+    pageCount: Int,
+    currentPageIndex: Int,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = Modifier
+        .fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter
+    ) {
         Row(
             modifier = Modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 8.dp),
-            horizontalArrangement = Arrangement.Center
+                .padding(bottom = 16.dp),
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
             repeat(pageCount) { iteration ->
-                val color = if (currentPageIndex == iteration) Color.DarkGray else Color.LightGray
+                val isSelected = currentPageIndex == iteration
+                val color = if (isSelected) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                }
+
                 Box(
                     modifier = modifier
-                        .padding(2.dp)
+                        .padding(horizontal = 4.dp)
                         .clip(CircleShape)
                         .background(color)
-                        .size(16.dp)
-                )
+                        .size(24.dp), // اندازه بزرگ‌تر برای نشان دادن عدد
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "${iteration + 1}", // عدد صفحه
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            color = if (isSelected)
+                                MaterialTheme.colorScheme.onPrimary
+                            else
+                                MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                }
             }
         }
     }

@@ -108,7 +108,7 @@ fun TopicItem(
                         //color = MaterialTheme.colorScheme.
                     ),
                     //style = MaterialTheme.typography.bodyLarge,
-                    //color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = modifier
                         .padding(16.dp)
                         .fillMaxWidth()
@@ -130,7 +130,7 @@ fun TopicItem(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     ),*/
                     style = MaterialTheme.typography.bodyMedium,
-                    //color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         }

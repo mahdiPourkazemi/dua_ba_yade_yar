@@ -63,7 +63,12 @@ fun DuaScreen(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(
+            top=16.dp,
+            bottom = 32.dp,
+            start = 16.dp,
+            end = 16.dp
+        )
     ) {
         itemsIndexed(chunks) { index,TextChunk ->
             DuaItem(
