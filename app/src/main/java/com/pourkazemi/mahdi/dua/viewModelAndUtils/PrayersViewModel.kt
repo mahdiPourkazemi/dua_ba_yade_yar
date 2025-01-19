@@ -31,7 +31,7 @@ class PrayersViewModel(private val repository: PrayerRepository) : ViewModel() {
     private var _allPrayersState = MutableStateFlow<List<Prayers>>(emptyList())
     val allPrayersState: StateFlow<List<Prayers>> = _allPrayersState.asStateFlow()
 
-    fun loadAllPrayers() {
+    private fun loadAllPrayers() {
         viewModelScope.launch {
             try {
                 repository.allPrayers.collect { prayers ->
@@ -48,8 +48,8 @@ class PrayersViewModel(private val repository: PrayerRepository) : ViewModel() {
     fun getPrayerById(prayerId: Int): LiveData<Prayers?> =
         repository.getPrayerById(prayerId).asLiveData()
 
-    fun getPrayerTextsByPrayerId(prayerId: Int): LiveData<List<PrayerText>> =
-        repository.getPrayerTextsByPrayerId(prayerId).asLiveData()
+    fun getPrayerTextsByPrayerId(prayerId: Int): Flow<List<PrayerText>> =
+        repository.getPrayerTextsByPrayerId(prayerId)
 
     //#Todo check speed of this query instead of above query(model)
     fun getPrayerWithTextsList(prayerId: Int): Flow<PrayerWithText> =

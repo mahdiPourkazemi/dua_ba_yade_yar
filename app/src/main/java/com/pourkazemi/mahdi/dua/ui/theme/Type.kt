@@ -55,7 +55,7 @@ val MyTypography = Typography(
         fontWeight = FontWeight.Bold,
         lineHeight = 40.sp,
         fontSize = 18.sp, // تنظیم سایز فونت
-        textAlign = TextAlign.Right, // تراز به سمت راست
+        //textAlign = TextAlign.Right, // تراز به سمت راست
         textDirection = TextDirection.Rtl, // جهت متن راست به چپ
         lineBreak = customTitleLineBreak // اعمال LineBreak
     ),
@@ -63,8 +63,9 @@ val MyTypography = Typography(
     bodySmall = TextStyle(
         fontFamily = AmiriFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp, // تنظیم سایز فونت
-        textAlign = TextAlign.Right, // تراز به سمت راست
+        fontSize = 14.sp, //12->1.15//
+        //letterSpacing = 0.001.sp,        //Todo find a weight of this with size
+        //textAlign = TextAlign.Right, // تراز به سمت راست
         textDirection = TextDirection.Rtl, // جهت متن راست به چپ
         lineBreak = customTitleLineBreak // اعمال LineBreak
     )

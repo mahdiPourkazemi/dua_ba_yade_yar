@@ -1,29 +1,23 @@
 package com.pourkazemi.mahdi.dua.ui.screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
 import com.pourkazemi.mahdi.dua.data.model.PrayerText
 import com.pourkazemi.mahdi.dua.ui.component.DuaItem
-import com.pourkazemi.mahdi.dua.ui.preview.FullPreview
-import com.pourkazemi.mahdi.dua.ui.theme.DuaTheme
-import com.pourkazemi.mahdi.dua.ui.theme.MyTypography
+import com.pourkazemi.mahdi.dua.ui.component.TranslationState
 import kotlin.math.ceil
 
 @Composable
@@ -32,7 +26,8 @@ fun DuaScreen(
     prayerText: PrayerText,
     maxWidth: Int,
     textStyle: TextStyle,
-    translationTextStyle: TextStyle
+    translationTextStyle: TextStyle,
+    translationState: TranslationState,
 ) {
     val textMeasurer = rememberTextMeasurer()
 
@@ -54,12 +49,13 @@ fun DuaScreen(
     }
 
     // Calculate chunks
-    val chunks_ = remember{
+    val chunks = remember{
         calculateChunks(
             textLayout = textLayout,
             translationLayout = translationLayout,
             linesPerChunk = 2,
-            translationLinesPerChunk = 2
+            translationLinesPerChunk = 2,
+            parentId = prayerText.id
         )
     }
 
@@ -69,19 +65,23 @@ fun DuaScreen(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(16.dp)
     ) {
-        items(chunks_) { TextChunk ->
+        itemsIndexed(chunks) { index,TextChunk ->
             DuaItem(
                 text = TextChunk.text,
                 traText = TextChunk.translation,
                 textStyle = textStyle,
                 traTextStyle = translationTextStyle,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                translationState= translationState,
+                itemId =  "${TextChunk.parentId}${TextChunk.id}".toInt()
             )
         }
     }
 }
 
 private data class TextChunk(
+    val parentId: Int, // شناسه والد (PrayerText)
+    val id: Int,       // شناسه یکتا برای TextChunk
     val text: String,
     val translation: String
 )
@@ -90,7 +90,8 @@ private fun calculateChunks(
     textLayout: TextLayoutResult,
     translationLayout: TextLayoutResult,
     linesPerChunk: Int,
-    translationLinesPerChunk: Int
+    translationLinesPerChunk: Int,
+    parentId:Int
 ): List<TextChunk> {
     val textLineCount = textLayout.lineCount
     val translationLineCount = translationLayout.lineCount
@@ -105,16 +106,28 @@ private fun calculateChunks(
         val translationStartLine = i * translationLinesPerChunk
         val translationEndLine = minOf(translationStartLine + translationLinesPerChunk, translationLineCount)
 
+        val chunkText = extractTextByLines(textLayout, textStartLine, textEndLine)
+
+        // شرط بررسی عربی بودن و فارسی نبودن
+        val chunkTranslation = if (isArabicNotPersian(chunkText)) {
+            extractTextByLines(translationLayout, translationStartLine, translationEndLine)
+        } else {
+            ""
+        }
+
         chunks.add(
             TextChunk(
-                text = extractTextByLines(textLayout, textStartLine, textEndLine),
-                translation = extractTextByLines(translationLayout, translationStartLine, translationEndLine)
+                parentId = parentId,
+                id = i,
+                text = chunkText,
+                translation = chunkTranslation
             )
         )
     }
 
     return chunks
 }
+
 
 private fun extractTextByLines(
     layoutResult: TextLayoutResult,
@@ -128,6 +141,14 @@ private fun extractTextByLines(
     return layoutResult.layoutInput.text.text.substring(startOffset, endOffset)
 }
 
+private fun isArabicNotPersian(text: String): Boolean {
+    val arabicDiacritics = Regex("""[\u064B-\u0652]""") // محدوده اعراب عربی
+
+    return arabicDiacritics.containsMatchIn(text)
+}
+
+
+/*
 @Preview
 @Composable
 private fun LazyTextLayoutPreview() {
@@ -183,4 +204,4 @@ private fun T10Preview() {
             )
         }
     }
-}
+}*/

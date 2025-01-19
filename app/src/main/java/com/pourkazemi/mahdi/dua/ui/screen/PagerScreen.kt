@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -27,10 +28,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.pourkazemi.mahdi.dua.data.model.PrayerText
+import com.pourkazemi.mahdi.dua.ui.component.TranslationState
 import com.pourkazemi.mahdi.dua.ui.theme.MyTypography
 
 @Composable
-fun AutoAdvancePager(pageItems: List<PrayerText>, modifier: Modifier = Modifier) {
+fun AutoAdvancePager(
+    pageItems: List<PrayerText>,
+    modifier: Modifier = Modifier,
+    translationState: TranslationState,
+) {
     val density = LocalDensity.current
 
     BoxWithConstraints(modifier = Modifier
@@ -48,9 +54,12 @@ fun AutoAdvancePager(pageItems: List<PrayerText>, modifier: Modifier = Modifier)
             DuaScreen(
                 prayerText = pageItems.get(page),
                 maxWidth = maxWidth,
-                textStyle = MyTypography.bodyMedium,
-                translationTextStyle = MyTypography.bodySmall
+                textStyle = MyTypography.bodyMedium, //Todo up to main
+                translationTextStyle = MyTypography.bodySmall,
+                translationState=translationState,
             )
+
+
         }
 
         PagerIndicator(pageItems.size, pagerState.currentPage)

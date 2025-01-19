@@ -20,7 +20,7 @@ import com.pourkazemi.mahdi.dua.ui.component.TopicItem
 fun TopicListScreen(
     prayers: List<Prayers>,
     modifier: Modifier = Modifier,
-    onItemClick: (Int) -> Unit,
+    onItemClick: (Prayers) -> Unit,
 ) {
     val listState= rememberLazyListState()
 
@@ -42,7 +42,7 @@ fun TopicListScreen(
                 TopicItem(
                     modifier = modifier,
                     prayers = prayer,
-                    onClick = { onItemClick(prayer.id) }
+                    onClick = { onItemClick(prayer) }
                 )
             }
         }
