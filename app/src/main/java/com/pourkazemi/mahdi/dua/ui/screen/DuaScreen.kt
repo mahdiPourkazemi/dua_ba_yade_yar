@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -32,7 +31,7 @@ fun DuaScreen(
     val textMeasurer = rememberTextMeasurer()
 
     // Measure text layouts
-    val textLayout = remember{
+    val textLayout = remember(textStyle){
         textMeasurer.measure(
             text = prayerText.text,
             style = textStyle,
@@ -40,7 +39,7 @@ fun DuaScreen(
         )
     }
 
-    val translationLayout = remember{
+    val translationLayout = remember(translationTextStyle){
         textMeasurer.measure(
             text = prayerText.translation,
             style = translationTextStyle,
@@ -49,7 +48,7 @@ fun DuaScreen(
     }
 
     // Calculate chunks
-    val chunks = remember{
+    val chunks = remember(textLayout,translationLayout){
         calculateChunks(
             textLayout = textLayout,
             translationLayout = translationLayout,
@@ -94,8 +93,8 @@ private data class TextChunk(
 private fun calculateChunks(
     textLayout: TextLayoutResult,
     translationLayout: TextLayoutResult,
-    linesPerChunk: Int,
-    translationLinesPerChunk: Int,
+    linesPerChunk: Int = 2,
+    translationLinesPerChunk: Int = 2,
     parentId:Int
 ): List<TextChunk> {
     val textLineCount = textLayout.lineCount
@@ -151,62 +150,3 @@ private fun isArabicNotPersian(text: String): Boolean {
 
     return arabicDiacritics.containsMatchIn(text)
 }
-
-
-/*
-@Preview
-@Composable
-private fun LazyTextLayoutPreview() {
-    val density = LocalDensity.current
-
-    DuaTheme {
-        BoxWithConstraints(
-            modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.background)
-                .fillMaxSize()
-        ) {
-            val maxWidth = with(density) {
-                (maxWidth - 64.dp).toPx().toInt()
-            }
-
-            val sampleText = "Sample prayer text".repeat(10)
-            val sampleTranslation = "Sample translation".repeat(5)
-
-            DuaScreen(
-                prayerText = PrayerText(
-                    id = 1,
-                    prayerid = 1,
-                    text = sampleText,
-                    translation = sampleTranslation
-                ),
-                maxWidth = maxWidth,
-                textStyle = MyTypography.bodyMedium,
-                translationTextStyle = MyTypography.bodySmall
-            )
-        }
-    }
-}
-@FullPreview
-@Composable
-private fun T10Preview() {
-    val density = LocalDensity.current // گرفتن Density
-    DuaTheme {
-        BoxWithConstraints (Modifier
-            .fillMaxSize(),
-        ) {
-            val max_Width = with(density) {
-                // محاسبه عرض مؤثر با تبدیل dp به px
-                (maxWidth - 64.dp).toPx().toInt()
-            }
-            val sampleText =
-                "لا إِلهَ إِلّا أَنْتَ مُقَلِّبَ القُلُوبِ وَ الأَبْصارِ، لا إِلهَ إِلّا أَنْتَ خالِقَ الخَلْقِ بِلا حاجَةٍ فِيکَ إِلَيْهِمْ، لا إِلهَ إِلّا أَنْتَ مُبْدِئَ الخَلْقِ لا يَنْقُصُ مِنْ مُلْکِکَ شَي\u200Fءٌ. لا إِلهَ إِلّا أَنْتَ باعِثَ مَنْ فِي القُبُورِ، لا إِلهَ إِلّا أَنْتَ مُدَبِّرَ الأُمُورِ، لا إِلهَ إِلّا أَنْتَ دَيّانَ الدِّينِ وَ جَبّارَ الجَبابِرَةِ، لا إِلهَ إِلّا أَنْتَ مُجْرِيَ المآءِ فِي الصَّخْرَةِ الصَّمّآءِ، لا إِلهَ إلّا أَنْتَ مُجْرِيَ المآءِ فِي النَّباتِ، لا إِلهَ إِلّا أَنْتَ مُکَوِّنَ طَعْمِ الِّثمارِ، لا إِلهَ إِلّا أَنْتَ مُحْصِيَ عَدَدِ القَطَرِ وَ ما تَحْمِلُهُ السَّحابُ، لا إِلهَ إِلّا أَنْتَ مُحْصِيَ عَدَدِ ما تَجْرِي بِهِ الرِّياحُ فِي الهَوآءِ، لا إِلهَ إِلّا أَنْتَ مُحْصِيَ ما فِي البِحارِ مِنْ رَطْبٍ وَ يابِسٍ، لا إِلهَ إِلّا أَنْتَ مُحْصِيَ ما يَدِبُّ فِي ظُلُماتِ البِحارِ وَ فِي أَطْباقِ الثَّري، أَسْأَلُکَ بِاسْمِکَ الَّذِي سَمَّيْتَ بِهِ نَفْسَکَ، أَوِ اسْتَأْثَرْتَ بِهِ فِي عِلْمِ الغَيْبِ عِنْدَکَ وَ أَسْأَلُکَ بِکُلِّ اسْمٍ سَمَّاکَ بِهِ أَحَدٌ مِنْ خَلْقِکَ مِنْ نَبِيٍّ أَوْ صِدِّیقٍ أَوْ شَهِیدٍ أوْ أحَدٍ مِنْ مَلَائِکَتِکَ وَ أسْأَلُکَ بِاسْمِکَ الَّذِي إِذا دُعِيتَ بِهِ أَجَبْتَ وَ إِذَا سُئِلْتَ بِهِ أَعْطَيْتَ، وَ أَسْأَلُکَ بِحَقَّکَ عَلي مُحَمَّدٍ وَ أَهْلِ بَيْتِهِ صَلَواتُکَ عَلَيْهِمْ وَ بَرَکاتُکَ وَ بِحَقِّهِمُ الَّذِي أَوْجَبْتَهُ عَلي نَفْسِکَ وَ أَنَلْتَهُمْ بِهِ فَضْلَکَ أَنْ تُصَلِّيَ عَلي مُحَمَّدٍ عَبْدِکَ وَ رَسُولِکَ الدّاعِي إِلَيْکَ بِإِذْنِکَ وَ سِراجِکَ السّاطِعِ بَيْنَ عِبادِکَ فِي أَرْضِکَ وَ سَمآئِکَ وَ جَعَلْتَهُ رَحْمَةً لِلْعالَمِينَ وَ نُوراً اِسْتَضآءَ بِهِ المُؤْمِنُونَ فَبَشَّرَنا بِجَزِيلِ ثَوابِکَ وَ أَنْذَرَنا الأَلِيمَ مِنْ عَقَابِکَ، أَشْهَدُ أَنَّهُ قَدْ جآءَ بِالحَقِّ وَ صَدَّقَ المُرْسَلِينَ، وَ أَشْهَدُ أَنَّ الَّذِينَ کَذَّبُوهُ ذائِقُوا العَذابِ الأَلِيمِ، أَسْأَلُکَ يا اَللَّهُ يا اَللَّهُ يا اَللَّهُ، يا رَبّاهُ يا رَبّاهُ يا رَبّاهُ، يا سَيِّدِي يا سَيِّدِي يا سَيِّدِي، يا مَوْلايَ يا مَوْلايَ يا مَوْلايَ، أَسْأَلُکَ فِي هذِهِ الغَداةِ أَنْ تُصَلِّيَ عَلي مُحَمَّدٍ وَ آلِ مُحَمَّدٍ وَ أَنْ تَجْعَلَنِي مِنْ أَوْفَرِ عِبادِکَ وَ سآئِلِيکَ نَصِيباً وَ أَنْ تَمُنَّ عَلَيَّ بِفَکاکِ رَقَبَتِي مِنَ النّارِ، يا أَرْحَمَ الرّاحِمِينَ، وَ أَسْأَلُکَ بِجَمِيعِ ما سَأَلْتُکَ وَ ما لَمْ أَسْأَلْکَ مِنْ عَظِيمِ جَلالِکَ ما لَوْ عَلِمْتُهُ لَسَأَلْتُکَ بِهِ أَنْ تُصَلِّيَ عَلي مُحَمَّدٍ وَ أَهْلِ بَيْتِهِ وَ أَنْ تَأْذَنَ لِفَرَجِ مَنْ بِفَرَجِهِ فَرَجُ أَوْلِيآئِکَ وَ أَصْفِيآئِکَ مِنْ خَلْقِکَ وَ بِهِ تُبِيدُ الظّالِمِينَ وَ تُهْلِکُهُمْ، عَجِّلْ ذلِکَ يا رَبِّ العالَمِينَ وَ اعْطِنِي سُؤْلِي يا ذَاالجَلالِ وَالإِکْرامِ فِي جَمِيعِ ما سَأَلْتُکَ لِعاجِلِ الدُّنْيا وَ آجِلِ الآخِرَةِ، يا مَنْ هُوَ أَقْرَبُ إِلَيَّ مِنْ حَبْلِ الوَرِيدِ أَقِلْنِي عَثْرَتِي وَ أَقْلِبْنِي بِقَضآءِ حَوآئِجِي يا خالِقِي وَ يا رازِقِي وَ يا باعِثِي وَ يا مُحْيِي عِظامِي وَ هِيَ رَمِيمٌ، صَلِّ عَلي مُحَمَّدٍ وَآلِ مُحَمَّدٍ وَ اسْتَجِبْ لِي دُعآئِي يا أَرْحَمَ الرّاحِمِينَ .".repeat(2)
-
-            DuaScreen(
-                prayerText=PrayerText(id = 1, prayerid = 1, text = sampleText, translation = "translation"),
-                maxWidth = max_Width,
-                textStyle = MyTypography.bodyMedium,
-                translationTextStyle = MyTypography.bodySmall
-            )
-        }
-    }
-}*/

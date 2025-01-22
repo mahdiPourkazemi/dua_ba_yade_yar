@@ -1,29 +1,27 @@
 package com.pourkazemi.mahdi.dua.viewModelAndUtils
 
 import android.util.Log
-import androidx.lifecycle.LiveData
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.pourkazemi.mahdi.dua.data.model.PrayerText
-import com.pourkazemi.mahdi.dua.data.model.PrayerWithText
 import com.pourkazemi.mahdi.dua.data.model.Prayers
 import com.pourkazemi.mahdi.dua.data.repository.PrayerRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PrayersViewModel(private val repository: PrayerRepository) : ViewModel() {
+class PrayersViewModel(
+    private val repository: PrayerRepository,
+    private val myPreferences: MyPreferences
+) : ViewModel() {
 
     init {
         //#Todo check stateFlow and call fun in init for allPrayers
         loadAllPrayers()
+        loadData()
     }
 
     //val allPrayers: LiveData<List<Prayers>> = repository.allPrayers.asLiveData()
@@ -45,17 +43,17 @@ class PrayersViewModel(private val repository: PrayerRepository) : ViewModel() {
     }
 
 
-    fun getPrayerById(prayerId: Int): LiveData<Prayers?> =
-        repository.getPrayerById(prayerId).asLiveData()
+/*    fun getPrayerById(prayerId: Int): LiveData<Prayers?> =
+        repository.getPrayerById(prayerId).asLiveData()*/
 
     fun getPrayerTextsByPrayerId(prayerId: Int): Flow<List<PrayerText>> =
         repository.getPrayerTextsByPrayerId(prayerId)
 
     //#Todo check speed of this query instead of above query(model)
-    fun getPrayerWithTextsList(prayerId: Int): Flow<PrayerWithText> =
-        repository.getPrayerWithTextsList(prayerId)
-    //
+/*    fun getPrayerWithTextsList(prayerId: Int): Flow<PrayerWithText> =
+        repository.getPrayerWithTextsList(prayerId)*/
 
+/*
     private val _prayerUiState = MutableStateFlow<PrayerUiState>(PrayerUiState.Loading)
     val prayerUiState: StateFlow<PrayerUiState> = _prayerUiState
 
@@ -69,18 +67,24 @@ class PrayersViewModel(private val repository: PrayerRepository) : ViewModel() {
                 _prayerUiState.value = PrayerUiState.Error
             }
         }
-    }
-
-
-/*    fun insertPrayer(prayer: Prayers) = viewModelScope.launch {
-        repository.insertPrayer(prayer)
-    }
-
-    fun updatePrayer(prayer: Prayers) = viewModelScope.launch {
-        repository.updatePrayer(prayer)
-    }
-
-    fun deletePrayer(prayer: Prayers) = viewModelScope.launch {
-        repository.deletePrayer(prayer)
     }*/
+
+    private val _data = MutableStateFlow<Int>(18)
+    val data: StateFlow<Int> = _data.asStateFlow()
+
+    fun saveData(value: Int) {
+        viewModelScope.launch {
+            myPreferences.writeToDataStore(value)
+        }
+    }
+
+    fun loadData() {
+        viewModelScope.launch {
+            val storedValue = myPreferences.readFromDataStore()
+            storedValue.collect{
+                _data.value = it
+            }
+        }
+    }
+
 }

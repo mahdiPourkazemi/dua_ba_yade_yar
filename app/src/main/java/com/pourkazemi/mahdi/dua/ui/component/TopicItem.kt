@@ -40,11 +40,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.pourkazemi.mahdi.dua.data.model.Prayers
 
 @Composable
 fun TopicItem(
     prayers: Prayers,
+    fontSize:Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -98,13 +100,16 @@ fun TopicItem(
                     Text(
                         modifier = Modifier.padding(horizontal = 4.dp),
                         text = if (isExpanded) "مخفی کردن توضیحات" else "نمایش توضیحات",
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            fontSize = (fontSize-4).sp
+                        )
                     )
                 }
                 Text(
                     text = prayers.name,
                     style = MaterialTheme.typography.bodyLarge.copy(
                         textDirection = TextDirection.Rtl,
+                        fontSize = fontSize.sp
                         //color = MaterialTheme.colorScheme.
                     ),
                     //style = MaterialTheme.typography.bodyLarge,
@@ -125,11 +130,9 @@ fun TopicItem(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 24.dp, vertical = 16.dp),
-                    /*style = MaterialTheme.typography.bodyMedium.copy(
-                        textDirection = TextDirection.Rtl,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    ),*/
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = fontSize.sp
+                    ),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }

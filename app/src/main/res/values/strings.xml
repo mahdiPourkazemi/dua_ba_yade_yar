@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">dua_velaye</string>
+    <string name="app_name">با یاد یار</string>
+    <string name="developer_and_etc">
+        این اپلیکیشن به سفارش گروه مذهبی دارلولایه طراحی و تولید شده است. برنامه‌نویسی توسط مهدی پورکاظمی و طراحی گرافیک توسط امیرعلی مرتضوی انجام شده است.
+    </string>
     <string name="show_more">Show more</string>
     <string name="show_less">Show less</string>
 </resources>

@@ -27,9 +27,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pourkazemi.mahdi.dua.data.model.PrayerText
+import com.pourkazemi.mahdi.dua.data.model.PrayerWithText
 import com.pourkazemi.mahdi.dua.ui.component.TranslationState
 import com.pourkazemi.mahdi.dua.ui.theme.MyTypography
 
@@ -38,9 +40,11 @@ fun AutoAdvancePager(
     pageItems: List<PrayerText>,
     modifier: Modifier = Modifier,
     translationState: TranslationState,
+    textStyle: TextStyle,
+    translationTextStyle: TextStyle,
 ) {
     val density = LocalDensity.current
-    val paddingOfElement=64.dp
+    val paddingOfElement = 64.dp
 
     BoxWithConstraints(modifier = Modifier
         .background(MaterialTheme.colorScheme.background)
@@ -58,8 +62,8 @@ fun AutoAdvancePager(
             DuaScreen(
                 prayerText = pageItems.get(page),
                 maxWidth = maxWidth,
-                textStyle = MyTypography.bodyMedium, //Todo up to main
-                translationTextStyle = MyTypography.bodySmall,
+                textStyle = textStyle,
+                translationTextStyle = translationTextStyle,
                 translationState=translationState,
             )
 

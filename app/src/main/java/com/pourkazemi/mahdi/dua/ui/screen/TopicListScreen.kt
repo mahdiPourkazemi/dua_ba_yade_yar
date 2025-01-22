@@ -19,10 +19,11 @@ import com.pourkazemi.mahdi.dua.ui.component.TopicItem
 @Composable
 fun TopicListScreen(
     prayers: List<Prayers>,
+    fontSize:Int=18,
     modifier: Modifier = Modifier,
     onItemClick: (Prayers) -> Unit,
 ) {
-    val listState= rememberLazyListState()
+    val listState= rememberLazyListState() //dose not needed
 
     Surface(
         color = MaterialTheme.colorScheme.background,
@@ -30,7 +31,7 @@ fun TopicListScreen(
         modifier = modifier.fillMaxSize()
     ) {
         LazyColumn(
-            state = listState,
+            state = listState,//dose not needed
             contentPadding = PaddingValues(
                 horizontal = 16.dp,
                 vertical = 8.dp
@@ -42,6 +43,7 @@ fun TopicListScreen(
                 TopicItem(
                     modifier = modifier,
                     prayers = prayer,
+                    fontSize = fontSize,
                     onClick = { onItemClick(prayer) }
                 )
             }
