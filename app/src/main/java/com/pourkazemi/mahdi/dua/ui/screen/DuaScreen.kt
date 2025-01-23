@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -13,10 +14,12 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
 import com.pourkazemi.mahdi.dua.data.model.PrayerText
 import com.pourkazemi.mahdi.dua.ui.component.DuaItem
 import com.pourkazemi.mahdi.dua.ui.component.TranslationState
+import com.pourkazemi.mahdi.dua.ui.component.rememberTranslationState
 import kotlin.math.ceil
 
 @Composable
@@ -112,7 +115,6 @@ private fun calculateChunks(
 
         val chunkText = extractTextByLines(textLayout, textStartLine, textEndLine)
 
-        // شرط بررسی عربی بودن و فارسی نبودن
         val chunkTranslation = if (isArabicNotPersian(chunkText)) {
             extractTextByLines(translationLayout, translationStartLine, translationEndLine)
         } else {
@@ -146,7 +148,32 @@ private fun extractTextByLines(
 }
 
 private fun isArabicNotPersian(text: String): Boolean {
-    val arabicDiacritics = Regex("""[\u064B-\u0652]""") // محدوده اعراب عربی
+    val arabicDiacritics = Regex("""[\u064B-\u0652]""")
 
     return arabicDiacritics.containsMatchIn(text)
 }
+
+@Preview(showBackground = true)
+@Composable
+fun DuaScreenPreview() {
+    MaterialTheme {
+        val samplePrayerText = PrayerText(
+            id = 1,
+            prayerid = 1,
+            text = "اللّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَآلِ مُحَمَّدٍ",
+            translation = "خدایا، بر محمد و آل محمد درود بفرست."
+        )
+        val textStyle = MaterialTheme.typography.bodyLarge
+        val translationTextStyle = MaterialTheme.typography.bodyMedium
+        val translationState = rememberTranslationState()
+
+        DuaScreen(
+            prayerText = samplePrayerText,
+            maxWidth = 800,
+            textStyle = textStyle,
+            translationTextStyle = translationTextStyle,
+            translationState = translationState
+        )
+    }
+}
+

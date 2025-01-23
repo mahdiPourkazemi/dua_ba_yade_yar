@@ -31,7 +31,7 @@ fun SearchBar(
     searchQuery: String,
     onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    placeholder: String = "Search",//Todo customize placeholder in resource
+    placeholder: String = "Search",//? customize placeholder in resource
     onSearch: (String) -> Unit = {}
 ) {
     OutlinedTextField(
@@ -87,26 +87,9 @@ fun SearchBar(
             .heightIn(min = 48.dp)
             .padding(
                 vertical = 8.dp,
-                horizontal = 16.dp) //Todo customize padding for topAppBar
+                horizontal = 16.dp) //? customize padding for topAppBar
     )
 }
-
-
-/*@Preview
-@Composable
-fun SearchBarPreview(){
-    SearchBar("ئشاهی",,onSearch = {})
-}*/
-
-/*var searchQuery by remember { mutableStateOf("") }
-
-SearchBar(
-searchQuery = searchQuery,
-onQueryChange = { searchQuery = it },
-onSearch = { query ->
-    // Handle search here
-}
-)*/
 
 
 @Preview(showBackground = true)

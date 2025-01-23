@@ -13,13 +13,7 @@ interface PrayerRepository {
 
     fun getPrayerTextsByPrayerId(prayerId: Int): Flow<List<PrayerText>>
 
-    //#Todo check speed of this query instead of above query(model)
+    //? check speed of this query instead of above query(model)
     fun getPrayerWithTextsList(prayerId: Int): Flow<PrayerWithText>
-    //
 
-/*    suspend fun insertPrayer(prayer: Prayers)
-
-    suspend fun updatePrayer(prayer: Prayers)
-
-    suspend fun deletePrayer(prayer: Prayers)*/
 }

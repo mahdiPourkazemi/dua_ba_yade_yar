@@ -23,7 +23,7 @@ fun TopicListScreen(
     modifier: Modifier = Modifier,
     onItemClick: (Prayers) -> Unit,
 ) {
-    val listState= rememberLazyListState() //dose not needed
+    val listState= rememberLazyListState() //! dose not needed
 
     Surface(
         color = MaterialTheme.colorScheme.background,
@@ -31,7 +31,7 @@ fun TopicListScreen(
         modifier = modifier.fillMaxSize()
     ) {
         LazyColumn(
-            state = listState,//dose not needed
+            state = listState,//! dose not needed
             contentPadding = PaddingValues(
                 horizontal = 16.dp,
                 vertical = 8.dp
@@ -55,7 +55,7 @@ fun TopicListScreen(
 @Preview(showBackground = true)
 @Composable
 fun TopicListScreenPreview() {
-    val context = LocalContext.current // دسترسی به کانتکست
+    val context = LocalContext.current
 
     val samplePrayers = listOf(
         Prayers(1,"دعای اول", "توضیحات دعای اول"),

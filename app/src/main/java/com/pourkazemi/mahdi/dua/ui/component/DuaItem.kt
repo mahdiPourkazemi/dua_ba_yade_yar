@@ -21,19 +21,18 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.pourkazemi.mahdi.dua.ui.preview.FullPreview
 
 
 class TranslationState(
@@ -62,12 +61,12 @@ class TranslationState(
     }
 
     companion object {
-        val Saver: Saver<TranslationState, *> = listSaver(
-            save = { listOf(it.globalTranslationEnabled, it.individualStates) },
-            restore = {
+        val Saver: Saver<TranslationState, *> =  mapSaver(
+            save = { mapOf("global" to it.globalTranslationEnabled, "individual" to it.individualStates) },
+            restore = {saved ->
                 TranslationState(
-                    initialGlobalState = it[0] as Boolean,
-                    initialIndividualStates = it[1] as Map<Int, Boolean>
+                    initialGlobalState =saved["global"] as Boolean,
+                    initialIndividualStates = saved["individual"] as Map<Int, Boolean>
                 )
             }
         )
@@ -111,10 +110,9 @@ fun DuaItem(
                     text = text,
                     style = textStyle.copy(
                         color = MaterialTheme.colorScheme.onSurface,
-                        textDirection = TextDirection.Rtl
+                        textDirection = TextDirection.ContentOrRtl
                     ),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = modifier
+                    modifier = modifier.fillMaxWidth()
                 )
 
                 AnimatedVisibility(
@@ -160,23 +158,16 @@ fun DuaItem(
     }
 }
 
-
-/*
-@FullPreview()
+@Preview(showBackground = true)
 @Composable
-fun MyTextPreview() {
-        DuaItem(
-            text = "مهدی پورکاظمی تست این است باید بیشتر بررسی شود".repeat(3),
-            traText = "معنی شود یا می شود پس بشود",
-            textStyle = MaterialTheme.typography.bodyLarge.copy(
-                textDirection = TextDirection.Rtl,
-                color = MaterialTheme.colorScheme.onSurface
-            ),
-            traTextStyle = MaterialTheme.typography.bodyLarge.copy(
-                textDirection = TextDirection.Rtl,
-                color = MaterialTheme.colorScheme.onSurface
-            ),
-            modifier = Modifier,
-            //viewTranslation = false
-        )
-}*/
+fun DuaItemPreview() {
+    val previewTranslationState = rememberTranslationState()
+    DuaItem(
+        itemId = 1,
+        translationState = previewTranslationState,
+        text = "بسم الله الرحمن الرحيم",
+        traText = "In the name of Allah, the Most Gracious, the Most Merciful",
+        textStyle = MaterialTheme.typography.bodyMedium,
+        traTextStyle = MaterialTheme.typography.bodySmall
+    )
+}

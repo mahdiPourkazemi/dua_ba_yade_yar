@@ -1,7 +1,6 @@
 package com.pourkazemi.mahdi.dua.viewModelAndUtils
 
 import android.util.Log
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pourkazemi.mahdi.dua.data.model.PrayerText
@@ -19,12 +18,9 @@ class PrayersViewModel(
 ) : ViewModel() {
 
     init {
-        //#Todo check stateFlow and call fun in init for allPrayers
         loadAllPrayers()
         loadData()
     }
-
-    //val allPrayers: LiveData<List<Prayers>> = repository.allPrayers.asLiveData()
 
     private var _allPrayersState = MutableStateFlow<List<Prayers>>(emptyList())
     val allPrayersState: StateFlow<List<Prayers>> = _allPrayersState.asStateFlow()
@@ -43,33 +39,11 @@ class PrayersViewModel(
     }
 
 
-/*    fun getPrayerById(prayerId: Int): LiveData<Prayers?> =
-        repository.getPrayerById(prayerId).asLiveData()*/
-
     fun getPrayerTextsByPrayerId(prayerId: Int): Flow<List<PrayerText>> =
         repository.getPrayerTextsByPrayerId(prayerId)
 
-    //#Todo check speed of this query instead of above query(model)
-/*    fun getPrayerWithTextsList(prayerId: Int): Flow<PrayerWithText> =
-        repository.getPrayerWithTextsList(prayerId)*/
 
-/*
-    private val _prayerUiState = MutableStateFlow<PrayerUiState>(PrayerUiState.Loading)
-    val prayerUiState: StateFlow<PrayerUiState> = _prayerUiState
-
-    // دریافت داده از دیتابیس و ذخیره در StateFlow
-    fun loadPrayer(prayerId: Int) {
-        viewModelScope.launch {
-            try {
-                val data = repository.getPrayerWithTextsList(prayerId)
-                _prayerUiState.value = PrayerUiState.Success(data.first())
-            } catch (e: Exception) {
-                _prayerUiState.value = PrayerUiState.Error
-            }
-        }
-    }*/
-
-    private val _data = MutableStateFlow<Int>(18)
+    private val _data = MutableStateFlow(18)
     val data: StateFlow<Int> = _data.asStateFlow()
 
     fun saveData(value: Int) {

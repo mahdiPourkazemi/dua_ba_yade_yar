@@ -7,14 +7,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.pourkazemi.mahdi.dua.ui.theme.MyTypography
+import com.pourkazemi.mahdi.dua.R
 
-
-// کامپوننت اپ‌بار سفارشی
 @Composable
 fun CustomAppBar(
     title: String,
@@ -45,7 +44,7 @@ fun CustomAppBar(
                 horizontalArrangement = Arrangement.Start
             ) {
                 Text(
-                    text = "ترجمه",
+                    text = stringResource(id = R.string.translation),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -96,10 +95,13 @@ fun CustomAppBar(
 @Composable
 fun CustomAppBarPreview() {
     MaterialTheme {
-        /*CustomAppBar(
+        CustomAppBar(
             title = "عنوان صفحه",
-            onSettingsClick = {},
-            onSwitchChange = {}
-        )*/
+            isSwitchChecked = true, //false
+            onSwitchChange = { /* do something */ },
+            currentTextSize = MaterialTheme.typography.bodyLarge,
+            onTextSizeChange = { /* handle text size change */ }
+        )
     }
 }
+

@@ -7,30 +7,23 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pourkazemi.mahdi.dua.DuaScreenData
 import com.pourkazemi.mahdi.dua.R
 import com.pourkazemi.mahdi.dua.data.model.PrayerText
 import com.pourkazemi.mahdi.dua.data.model.Prayers
 import com.pourkazemi.mahdi.dua.ui.component.TranslationState
-import com.pourkazemi.mahdi.dua.ui.component.rememberTranslationState
 import com.pourkazemi.mahdi.dua.ui.theme.MyTypography
-import com.pourkazemi.mahdi.dua.viewModelAndUtils.PrayersViewModel
 
 @Composable
 fun PrayerListScreen(
@@ -72,14 +65,11 @@ fun PrayerListScreen(
 fun PagerScreenWithScaffold(
     prayerList:List<PrayerText>,
     duaScreenData: DuaScreenData,
-    translationState: TranslationState ,//= rememberTranslationState(),
-    initialTextStyle: TextStyle ,//= MyTypography.bodyMedium,
+    translationState: TranslationState ,
+    initialTextStyle: TextStyle ,
     currentTextStyle: (TextStyle) ->Unit,
 ) {
-    /*val translationState = rememberTranslationState()
-    var currentTextStyle by remember {
-        mutableStateOf(TextStyle(fontSize = 18.sp))
-    }*/
+
     val translationSize=(initialTextStyle.fontSize.value - (initialTextStyle.fontSize.value / 4))
     Scaffold(
         topBar = {
@@ -97,7 +87,7 @@ fun PagerScreenWithScaffold(
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            AutoAdvancePager(
+            PagerScreen(
                 pageItems = prayerList,
                 translationState = translationState,
                 textStyle = initialTextStyle,
@@ -109,3 +99,41 @@ fun PagerScreenWithScaffold(
     }
 }
 
+@Preview(showBackground = true, device = "spec:width=412dp,height=892dp")
+@Composable
+fun PrayerListScreenPreview() {
+    val samplePrayers = listOf(
+        Prayers(1,"صلاة الفجر", "صلاة الفجر هي أول صلوات اليوم"),
+        Prayers(2,"صلاة الظهر", "صلاة الظهر تؤدى في منتصف النهار"),
+        Prayers(3,"صلاة العصر", "صلاة العصر تؤدى بعد منتصف النهار")
+    )
+
+    PrayerListScreen(
+        prayers = samplePrayers,
+        fontSize = 16,
+        onItemClick = {}
+    )
+}
+
+@Preview(showBackground = true, device = "spec:width=412dp,height=892dp")
+@Composable
+fun PagerScreenWithScaffoldPreview() {
+    val samplePrayerTexts = listOf(
+        PrayerText(1,1,"بسم الله", "In the name of Allah"),
+        PrayerText(2,1,"الحمد لله", "All praise to Allah")
+    )
+
+    val sampleDuaScreenData = DuaScreenData(1,"بسم الله")
+
+    val translationState = remember { TranslationState() }
+
+    val initialTextStyle = MyTypography.bodyLarge
+
+    PagerScreenWithScaffold(
+        prayerList = samplePrayerTexts,
+        duaScreenData = sampleDuaScreenData,
+        translationState = translationState,
+        initialTextStyle = initialTextStyle,
+        currentTextStyle = {}
+    )
+}

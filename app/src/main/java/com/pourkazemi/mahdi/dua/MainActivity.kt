@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
                     composable<TopicListScreen> {
                         PrayerListScreen(
                             prayers = prayers,
-                            fontSize = currentTextStyle.fontSize.value.toInt()      //#Todo fix this and using textStyle
+                            fontSize = currentTextStyle.fontSize.value.toInt()//? fix this and using textStyle
                         ){ prayer ->
                         navController.navigate(DuaScreenData(prayer.id,prayer.name))
                     }
@@ -67,9 +67,9 @@ class MainActivity : ComponentActivity() {
                             duaScreenData = duaScreenData,
                             translationState = translationState,
                             initialTextStyle = currentTextStyle,
-                        ){
-                            currentTextStyle=it
-                            prayersViewModel.saveData(it.fontSize.value.toInt())
+                        ){ textStyle->
+                            currentTextStyle = textStyle
+                            prayersViewModel.saveData(textStyle.fontSize.value.toInt())
                         }
 
                     }

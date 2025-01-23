@@ -11,7 +11,7 @@ import com.pourkazemi.mahdi.dua.data.model.Prayers
 
 @Database(
     entities = [Prayers::class, PrayerText::class],
-    exportSchema = true, // Good practice for version control
+    exportSchema = true,
     version = 1)
 abstract class AppDatabaseImp : RoomDatabase() {
     abstract fun prayersDao(): PrayersDao
@@ -26,9 +26,9 @@ abstract class AppDatabaseImp : RoomDatabase() {
                  Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabaseImp::class.java,
-                    "dua.sqlite" // نام فایل SQLite موجود شما
+                    "dua.sqlite"
                 ).createFromAsset("dua.sqlite")
-                    .fallbackToDestructiveMigration() // از اینجا می‌توانید مهاجرت تخریبی استفاده کنید
+                    .fallbackToDestructiveMigration()
                     .build().also { INSTANCE=it }
             }
         }

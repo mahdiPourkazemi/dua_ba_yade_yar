@@ -19,20 +19,9 @@ class PrayersRepository(
     override fun getPrayerTextsByPrayerId(prayerId: Int): Flow<List<PrayerText>> =
         prayerTextDao.getPrayerTextsByPrayerId(prayerId)
 
-    //#Todo check speed of this query instead of above query
+    //? sometime good practice to used and create this function
+    //? but in this case we don't need it because of list wrapper
     override fun getPrayerWithTextsList(prayerId: Int): Flow<PrayerWithText> =
         prayerTextDao.getPrayerWithTextsList(prayerId)
-    //
 
-/*    override suspend fun insertPrayer(prayer: Prayers) {
-        prayersDao.insertPrayer(prayer)
-    }
-
-    override suspend fun updatePrayer(prayer: Prayers) {
-        prayersDao.updatePrayer(prayer)
-    }
-
-    override suspend fun deletePrayer(prayer: Prayers) {
-        prayersDao.deletePrayer(prayer)
-    }*/
 }

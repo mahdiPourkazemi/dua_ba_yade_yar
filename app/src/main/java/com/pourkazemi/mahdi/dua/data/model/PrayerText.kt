@@ -32,7 +32,8 @@ data class PrayerText(
     val translation: String
 )
 
-//#Todo check speed of this query instead of above query(model)
+//? sometime good practice to used and create this class but
+//? in this case we don't need it because of list wrapper
 data class PrayerWithText(
     @Embedded val prayer: Prayers,
     @Relation(

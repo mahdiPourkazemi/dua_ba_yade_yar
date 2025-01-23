@@ -1,8 +1,6 @@
 package com.pourkazemi.mahdi.dua.ui.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -18,25 +16,20 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pourkazemi.mahdi.dua.data.model.PrayerText
-import com.pourkazemi.mahdi.dua.data.model.PrayerWithText
 import com.pourkazemi.mahdi.dua.ui.component.TranslationState
-import com.pourkazemi.mahdi.dua.ui.theme.MyTypography
+import com.pourkazemi.mahdi.dua.ui.component.rememberTranslationState
 
 @Composable
-fun AutoAdvancePager(
+fun PagerScreen(
     pageItems: List<PrayerText>,
     modifier: Modifier = Modifier,
     translationState: TranslationState,
@@ -46,7 +39,7 @@ fun AutoAdvancePager(
     val density = LocalDensity.current
     val paddingOfElement = 64.dp
 
-    BoxWithConstraints(modifier = Modifier
+    BoxWithConstraints(modifier = modifier
         .background(MaterialTheme.colorScheme.background)
         .fillMaxSize()
     ) {
@@ -121,5 +114,41 @@ fun PagerIndicator(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AutoAdvancePagerPreview() {
+    MaterialTheme {
+        val translationState= rememberTranslationState()
+        val samplePrayerTexts = listOf(
+            PrayerText(
+                id = 1,
+                prayerid = 1,
+                text = "اللّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَآلِ مُحَمَّدٍ",
+                translation = "خدایا، بر محمد و آل محمد درود بفرست."
+            ),
+            PrayerText(
+                id = 2,
+                prayerid = 1,
+                text = "رَبِّ زِدْنِي عِلْمًا",
+                translation = "پروردگارا، علم مرا افزون کن."
+            ),
+            PrayerText(
+                id = 3,
+                prayerid = 2,
+                text = "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+                translation = "تنها تو را می‌پرستیم و تنها از تو یاری می‌جوییم."
+            )
+        )
+
+        PagerScreen(
+            pageItems = samplePrayerTexts,
+            translationState = translationState,
+            textStyle = MaterialTheme.typography.bodyLarge,
+            translationTextStyle = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }

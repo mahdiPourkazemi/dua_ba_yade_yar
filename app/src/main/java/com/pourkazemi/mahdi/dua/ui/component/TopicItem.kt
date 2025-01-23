@@ -1,5 +1,6 @@
 package com.pourkazemi.mahdi.dua.ui.component
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
@@ -8,7 +9,6 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,15 +22,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,9 +35,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pourkazemi.mahdi.dua.R
 import com.pourkazemi.mahdi.dua.data.model.Prayers
 
 @Composable
@@ -56,10 +57,6 @@ fun TopicItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() },
-        /*border = BorderStroke(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-        ),*/
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -99,7 +96,8 @@ fun TopicItem(
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         modifier = Modifier.padding(horizontal = 4.dp),
-                        text = if (isExpanded) "مخفی کردن توضیحات" else "نمایش توضیحات",
+                        text = if (isExpanded) stringResource(R.string.show_less)
+                        else stringResource(R.string.show_more),
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontSize = (fontSize-4).sp
                         )
@@ -109,11 +107,9 @@ fun TopicItem(
                     text = prayers.name,
                     style = MaterialTheme.typography.bodyLarge.copy(
                         textDirection = TextDirection.Rtl,
-                        fontSize = fontSize.sp
-                        //color = MaterialTheme.colorScheme.
+                        fontSize = fontSize.sp ,
+                        color = MaterialTheme.colorScheme.onSurface
                     ),
-                    //style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = modifier
                         .padding(16.dp)
                         .fillMaxWidth()
@@ -138,4 +134,25 @@ fun TopicItem(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TopicItemPreview() {
+
+    val p_context = LocalContext.current
+
+    val samplePrayers = Prayers(
+        name = "صلاة الفجر",
+        description = "صلاة الفجر هي أول صلوات اليوم وتؤدى قبل شروق الشمس. وهي من أهم الصلوات التي يجب على المسلم أدائها في وقتها.",
+        id = 1
+    )
+
+    TopicItem(
+        prayers = samplePrayers,
+        fontSize = 16,
+        onClick = {
+            Toast.makeText(p_context, "Clicked", Toast.LENGTH_SHORT).show()
+        }
+    )
 }
