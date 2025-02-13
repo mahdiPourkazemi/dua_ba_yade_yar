@@ -9,7 +9,7 @@ interface PrayerRepository {
 
     val allPrayers: Flow<List<Prayers>>
 
-    fun getPrayerById(prayerId: Int): Flow<Prayers?>
+    fun getPrayerById(prayerId: Int): Flow<Result<Any>>
 
     fun getPrayerTextsByPrayerId(prayerId: Int): Flow<List<PrayerText>>
 

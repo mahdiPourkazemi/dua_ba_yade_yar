@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -83,7 +85,8 @@ private fun DialogHeader(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(top = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -93,7 +96,7 @@ private fun DialogHeader(
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
             modifier = Modifier
                 .size(110.dp)
-                .padding(8.dp)
+                //.padding(4.dp)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
@@ -102,7 +105,8 @@ private fun DialogHeader(
                 color = MaterialTheme.colorScheme.primary,
                 textDirection = TextDirection.ContentOrRtl,
                 fontSize = 20.sp
-            )
+            ),
+            modifier = Modifier.padding(horizontal = 8.dp)
         )
         Spacer(modifier = Modifier.height(8.dp))
         HorizontalDivider(
@@ -154,11 +158,18 @@ private fun DialogButtons(
             .padding(top = 16.dp),
         horizontalArrangement = Arrangement.End
     ) {
-        TextButton(onClick = onCancel) {
+        OutlinedButton(onClick = onCancel) {
             Text(text = stringResource(R.string.cancel))
         }
         Spacer(modifier = Modifier.width(8.dp))
-        Button(onClick = onConfirm) {
+        OutlinedButton(
+            colors = ButtonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                disabledContainerColor = MaterialTheme.colorScheme.secondary,
+                disabledContentColor = MaterialTheme.colorScheme.onSecondary
+            ),
+            onClick = onConfirm) {
             Text(text = stringResource(R.string.conform))
         }
     }

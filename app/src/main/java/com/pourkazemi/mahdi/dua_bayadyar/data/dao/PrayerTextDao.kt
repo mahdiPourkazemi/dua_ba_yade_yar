@@ -1,6 +1,6 @@
 package com.pourkazemi.mahdi.dua_bayadyar.data.dao
 
-import androidx.room.Dao
+import androidx.room.*
 import androidx.room.Query
 import androidx.room.Transaction
 import com.pourkazemi.mahdi.dua_bayadyar.data.model.PrayerText
@@ -19,8 +19,6 @@ interface PrayerTextDao {
     @Query("SELECT * FROM prayertext WHERE prayerid = :prayerId")
     fun getPrayerTextsByPrayerId(prayerId: Int): Flow<List<PrayerText>>
 
-    //? sometime good practice to used and create this function
-    //? but in this case we don't need it because of list wrapper
     @Transaction
     @Query("SELECT * FROM prayers WHERE id = :prayerId")
     fun getPrayerWithTextsList(prayerId: Int): Flow<PrayerWithText>

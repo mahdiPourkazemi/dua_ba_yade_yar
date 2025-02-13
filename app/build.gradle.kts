@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp") version "2.1.0-1.0.29"
     kotlin("plugin.serialization") version "2.1.0"
-
+    id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
 }
 
 android {
@@ -19,15 +19,26 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        
+        // Build config fields
+        buildConfigField("String", "DATABASE_NAME", "\"dua.sqlite\"")
+        buildConfigField("int", "DATABASE_VERSION", "1")
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // Enable R8 full mode
+            proguardFiles("proguard-rules-r8-full.pro")
+        }
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
         }
     }
     compileOptions {
@@ -38,6 +49,7 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 }
@@ -74,7 +86,27 @@ dependencies {
     //implementation(libs.androidx.constraintlayout)
     //implementation(libs.androidx.ui.text.google.fonts)
 
-    //    implementation(libs.androidx.ui)
-    //    implementation(libs.androidx.ui.graphics)
+        implementation(libs.androidx.ui)
+        implementation(libs.androidx.ui.graphics)
         implementation(libs.androidx.ui.tooling.preview)
+
+    // Add new dependencies
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    
+    // Testing
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.androidx.core.testing)
+    
+    // Android Testing
+    androidTestImplementation(libs.androidx.junit.v115)
+    androidTestImplementation(libs.androidx.espresso.core.v351)
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.1")
+
+    debugImplementation(libs.ui.test.manifest)
+
+    // For caching
+    implementation(libs.androidx.datastore.preferences.v112)
 }

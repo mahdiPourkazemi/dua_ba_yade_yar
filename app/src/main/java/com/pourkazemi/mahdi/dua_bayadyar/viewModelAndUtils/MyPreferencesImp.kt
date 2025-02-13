@@ -11,21 +11,24 @@ import kotlinx.coroutines.flow.map
 import java.io.IOException
 
 private val Context.dataStore by preferencesDataStore(name = "my_int_preferences")
-
-class MyPreferences private constructor(context: Context) {
+interface MyPreferences{
+    suspend fun writeToDataStore(value: Int)
+    fun readFromDataStore(): Flow<Int>
+}
+class MyPreferencesImp private constructor(context: Context):MyPreferences {
     private val myKey = intPreferencesKey("my_Int_key")
     private val dataStore = context.applicationContext.dataStore
 
     companion object {
-        @Volatile private var instance: MyPreferences? = null
+        @Volatile private var instance: MyPreferencesImp? = null
 
-        fun getInstance(context: Context): MyPreferences {
+        fun getInstance(context: Context): MyPreferencesImp {
             return instance ?: synchronized(this) {
-                instance ?: MyPreferences(context.applicationContext).also { instance = it }
+                instance ?: MyPreferencesImp(context.applicationContext).also { instance = it }
             }
         }
     }
-    suspend fun writeToDataStore(value: Int) {
+    override suspend fun writeToDataStore(value: Int) {
         try {
             dataStore.edit { preferences ->
                 preferences[myKey] = value
@@ -35,7 +38,7 @@ class MyPreferences private constructor(context: Context) {
         }
     }
 
-    fun readFromDataStore(): Flow<Int> {
+    override fun readFromDataStore(): Flow<Int> {
         return dataStore.data
             .catch { exception ->
                 if (exception is IOException) {

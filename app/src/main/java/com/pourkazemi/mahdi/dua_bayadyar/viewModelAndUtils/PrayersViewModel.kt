@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class PrayersViewModel(
     private val repository: PrayerRepository,
-    private val myPreferences: MyPreferences
+    private val myPreferencesImp: MyPreferences
 ) : ViewModel() {
 
     init {
@@ -48,13 +48,13 @@ class PrayersViewModel(
 
     fun saveData(value: Int) {
         viewModelScope.launch {
-            myPreferences.writeToDataStore(value)
+            myPreferencesImp.writeToDataStore(value)
         }
     }
 
     fun loadData() {
         viewModelScope.launch {
-            val storedValue = myPreferences.readFromDataStore()
+            val storedValue = myPreferencesImp.readFromDataStore()
             storedValue.collect{
                 _data.value = it
             }

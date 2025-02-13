@@ -3,7 +3,7 @@ package com.pourkazemi.mahdi.dua_bayadyar
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,19 +22,20 @@ import com.pourkazemi.mahdi.dua_bayadyar.ui.screen.PrayerListScreen
 import com.pourkazemi.mahdi.dua_bayadyar.ui.theme.DuaTheme
 import com.pourkazemi.mahdi.dua_bayadyar.viewModelAndUtils.MyApplication
 import com.pourkazemi.mahdi.dua_bayadyar.viewModelAndUtils.PrayersViewModel
-import com.pourkazemi.mahdi.dua_bayadyar.viewModelAndUtils.PrayersViewModelFactory
 import kotlinx.serialization.Serializable
 
 class MainActivity : ComponentActivity() {
 
-    private val prayersViewModel: PrayersViewModel by viewModels {
-        PrayersViewModelFactory((application as MyApplication).container.prayerRepository,
-            (application as MyApplication).preference)
-    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        enableEdgeToEdge()
         setContent {
+
+            val prayersViewModel = viewModel<PrayersViewModel>(
+                factory = MyApplication.appModule.myViewModelFactory
+            )
+
             DuaTheme {
                 val translationState = rememberTranslationState()
                 val sizeOfFontShearedPreference by prayersViewModel.data.collectAsStateWithLifecycle()

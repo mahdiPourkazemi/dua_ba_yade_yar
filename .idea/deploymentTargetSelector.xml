@@ -13,12 +13,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="MyTextTestPreview - Foldable">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="T9TwoLineTextPreview">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="T10Preview">
         <option name="selectionMode" value="DROPDOWN" />
         <DropdownSelection timestamp="2025-01-07T20:47:12.598193100Z">
@@ -31,6 +25,12 @@
         <DialogSelection />
       </SelectionState>
       <SelectionState runConfigName="TopicItemPreview">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="PreviewTextSizeAlertDialog - TextSizeDialog Preview">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="PreviewTextSizeDialog - TextSizeDialog Preview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
