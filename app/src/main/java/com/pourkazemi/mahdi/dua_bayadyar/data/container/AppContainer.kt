@@ -21,7 +21,13 @@ interface AppContainer {
 class AppDataContainer private constructor(context: Context) : AppContainer {
 
     private val database: AppDatabaseImp by lazy {
-        AppDatabaseImp.getDatabase(context.applicationContext)
+        Room.databaseBuilder(
+            context.applicationContext,
+            AppDatabaseImp::class.java,
+            "dua.sqlite"
+        ).createFromAsset("dua.sqlite")
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     override val prayersDao: PrayersDao by lazy { database.prayersDao() }

@@ -1,5 +1,6 @@
 package com.pourkazemi.mahdi.dua_bayadyar.ui.screen
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -85,15 +86,16 @@ fun DuaScreen(
         }
     }
 }
-
-private data class TextChunk(
+@VisibleForTesting
+data class TextChunk(
     val parentId: Int, // شناسه والد (PrayerText)
     val id: Int,       // شناسه یکتا برای TextChunk
     val text: String,
     val translation: String
 )
 
-private fun calculateChunks(
+@VisibleForTesting
+internal fun calculateChunks(
     textLayout: TextLayoutResult,
     translationLayout: TextLayoutResult,
     linesPerChunk: Int = 2,
@@ -134,7 +136,7 @@ private fun calculateChunks(
     return chunks
 }
 
-
+@VisibleForTesting
 private fun extractTextByLines(
     layoutResult: TextLayoutResult,
     startLine: Int,
@@ -147,6 +149,7 @@ private fun extractTextByLines(
     return layoutResult.layoutInput.text.text.substring(startOffset, endOffset)
 }
 
+@VisibleForTesting
 private fun isArabicNotPersian(text: String): Boolean {
     val arabicDiacritics = Regex("""[\u064B-\u0652]""")
 

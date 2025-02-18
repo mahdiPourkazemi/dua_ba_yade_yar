@@ -17,7 +17,7 @@ abstract class AppDatabaseImp : RoomDatabase() {
     abstract fun prayersDao(): PrayersDao
     abstract fun prayerTextDao(): PrayerTextDao
 
-    companion object {
+/*    companion object {
         @Volatile
         private var INSTANCE: AppDatabaseImp? = null
 
@@ -32,5 +32,5 @@ abstract class AppDatabaseImp : RoomDatabase() {
                     .build().also { INSTANCE=it }
             }
         }
-    }
+    }*/
 }

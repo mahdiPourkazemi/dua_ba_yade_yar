@@ -20,7 +20,7 @@ import com.pourkazemi.mahdi.dua_bayadyar.ui.component.rememberTranslationState
 import com.pourkazemi.mahdi.dua_bayadyar.ui.screen.PagerScreenWithScaffold
 import com.pourkazemi.mahdi.dua_bayadyar.ui.screen.PrayerListScreen
 import com.pourkazemi.mahdi.dua_bayadyar.ui.theme.DuaTheme
-import com.pourkazemi.mahdi.dua_bayadyar.viewModelAndUtils.MyApplication
+import com.pourkazemi.mahdi.dua_bayadyar.di.MyApplication
 import com.pourkazemi.mahdi.dua_bayadyar.viewModelAndUtils.PrayersViewModel
 import kotlinx.serialization.Serializable
 
